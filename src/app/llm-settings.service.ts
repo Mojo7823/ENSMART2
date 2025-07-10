@@ -257,7 +257,7 @@ export class LLMSettingsService {
     try {
       const messagesForAPI = apiMessages.map(m => ({
         role: m.role,
-        content: Array.isArray(m.content) ? this.flattenContent(m.content as ChatMessageContent) : m.content
+        content: Array.isArray(m.content) ? m.content : m.content
       }));
 
       const requestBody = {
@@ -381,7 +381,7 @@ export class LLMSettingsService {
     try {
       const messagesForAPI = apiMessages.map(m => ({
         role: m.role,
-        content: Array.isArray(m.content) ? this.flattenContent(m.content as ChatMessageContent) : m.content
+        content: Array.isArray(m.content) ? m.content : m.content
       }));
 
       const requestBody = {
