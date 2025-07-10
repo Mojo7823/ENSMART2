@@ -1,0 +1,162 @@
+.knowledge-base-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.knowledge-base-header {
+  margin-bottom: 30px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  color: #1976d2;
+}
+
+.header-text h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.header-text p {
+  margin: 4px 0 0 0;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.knowledge-base-content {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .knowledge-base-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.files-card {
+  min-height: 400px;
+}
+
+.no-files {
+  text-align: center;
+  padding: 40px 20px;
+  color: #666;
+}
+
+.no-files-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 16px;
+  color: #ccc;
+}
+
+.no-files h3 {
+  margin: 0 0 16px 0;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.no-files p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.hint {
+  font-style: italic;
+  color: #999;
+}
+
+.files-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.file-item {
+  border-bottom: 1px solid #eee;
+  padding: 12px 0;
+}
+
+.file-item:last-child {
+  border-bottom: none;
+}
+
+.file-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.file-details {
+  display: flex;
+  gap: 16px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.remove-button {
+  color: #f44336;
+}
+
+.remove-button:hover {
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
+.files-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 8px 0;
+}
+
+.summary-text {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.info-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.info-icon {
+  color: #1976d2;
+  margin-top: 4px;
+}
+
+.info-text h4 {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.info-text p {
+  margin: 0;
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}

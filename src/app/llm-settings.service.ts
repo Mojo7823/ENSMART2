@@ -12,9 +12,19 @@ export interface ChatMessageContentFile {
   type: 'file';
   file: {
     filename: string;
+    // For API calls, we'll use file_id instead of file_data
+    file_id?: string;
     // base64 encoded data, prefixed with data:application/pdf;base64,
-    file_data: string;
+    file_data?: string;
   };
+}
+
+export interface UploadedFile {
+  id: string;
+  filename: string;
+  size: number;
+  uploadDate: Date;
+  purpose: string;
 }
 
 export interface ChatMessageContentText {
@@ -45,6 +55,7 @@ export class LLMSettingsService {
   private storageKey = 'llmSettings';
   private chatSessionsKey = 'chatSessions';
   private currentChatKey = 'currentChat';
+  private uploadedFilesKey = 'uploadedFiles';
 
   constructor() {}
 
@@ -79,10 +90,10 @@ export class LLMSettingsService {
   private getDefaultConfig(): LLMConfig {
     return {
       enabled: false,
-      provider: 'openai',
+      provider: 'custom',
       apiKey: '',
-      apiHost: 'https://api.openai.com/v1',
-      model: 'gpt-3.5-turbo'
+      apiHost: 'https://api.parasail.io/v1',
+      model: 'parasail-gemma3-27b-it'
     };
   }
 
@@ -162,6 +173,102 @@ export class LLMSettingsService {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
+  // File upload management
+  async uploadFile(file: File): Promise<string> {
+    const config = this.getLLMConfig();
+    
+    if (!this.isLLMConfigured()) {
+      throw new Error('LLM is not properly configured. Please check your settings.');
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('purpose', 'user_data');
+
+    try {
+      const response = await fetch(`${config.apiHost}/files`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${config.apiKey}`
+        },
+        body: formData
+      });
+
+      if (!response.ok) {
+        let errorText = '';
+        try {
+          errorText = await response.text();
+        } catch (e) {
+          // Ignore if response text cannot be read
+        }
+        console.error(`File upload error: ${response.status} - ${response.statusText}. Body: ${errorText}`);
+        throw new Error(`File upload failed with status ${response.status}: ${response.statusText}`);
+      }
+
+      const data = await response.json();
+      
+      if (!data.id) {
+        throw new Error('Invalid response format: missing file ID');
+      }
+
+      // Store file info locally
+      const uploadedFile: UploadedFile = {
+        id: data.id,
+        filename: file.name,
+        size: file.size,
+        uploadDate: new Date(),
+        purpose: 'user_data'
+      };
+      
+      this.saveUploadedFile(uploadedFile);
+      
+      return data.id;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw error;
+    }
+  }
+
+  getUploadedFiles(): UploadedFile[] {
+    if (!this.isBrowser()) {
+      return [];
+    }
+    
+    const stored = localStorage.getItem(this.uploadedFilesKey);
+    if (stored) {
+      try {
+        const files = JSON.parse(stored);
+        return files.map((file: any) => ({
+          ...file,
+          uploadDate: new Date(file.uploadDate)
+        }));
+      } catch (e) {
+        console.error('Error parsing uploaded files:', e);
+        return [];
+      }
+    }
+    return [];
+  }
+
+  private saveUploadedFile(file: UploadedFile): void {
+    if (!this.isBrowser()) {
+      return;
+    }
+    
+    const files = this.getUploadedFiles();
+    files.push(file);
+    localStorage.setItem(this.uploadedFilesKey, JSON.stringify(files));
+  }
+
+  removeUploadedFile(fileId: string): void {
+    if (!this.isBrowser()) {
+      return;
+    }
+    
+    const files = this.getUploadedFiles().filter(file => file.id !== fileId);
+    localStorage.setItem(this.uploadedFilesKey, JSON.stringify(files));
+  }
+
   /**
    * Transform rich (array-based) message content into the plain-text string
    * format currently accepted by the OpenAI / Azure OpenAI chat-completion
@@ -184,7 +291,7 @@ export class LLMSettingsService {
   }
 
   // LLM API interaction
-  async sendMessage(message: string, fileData?: { name: string, content: string }): Promise<string> {
+  async sendMessage(message: string, file?: File): Promise<string> {
     const config = this.getLLMConfig();
 
     if (!this.isLLMConfigured()) {
@@ -192,14 +299,23 @@ export class LLMSettingsService {
     }
 
     let userMessageContent: ChatMessageContent;
+    let fileId: string | undefined;
 
-    if (fileData) {
+    if (file) {
+      // Upload file first
+      try {
+        fileId = await this.uploadFile(file);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        throw new Error('Failed to upload file. Please try again.');
+      }
+
       userMessageContent = [
         {
           type: 'file',
           file: {
-            filename: fileData.name,
-            file_data: `data:application/pdf;base64,${fileData.content}`
+            filename: file.name,
+            file_id: fileId
           }
         }
       ];
@@ -230,7 +346,7 @@ export class LLMSettingsService {
         apiContent = msg.content; // OpenAI API can handle plain string for user/assistant text-only messages
                                   // For system messages, it must be string.
                                   // For user/assistant messages with mixed content, it must be an array.
-        if (msg.role === 'user' && fileData && msg === userMessage) { // This is the current message with a file
+        if (msg.role === 'user' && file && msg === userMessage) { // This is the current message with a file
              apiContent = userMessageContent;
         } else if (msg.role !== 'system') { // If it's not a system message and not the current file message, wrap it
             apiContent = [{ type: 'text', text: msg.content } as ChatMessageContentText];

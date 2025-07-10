@@ -81,22 +81,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     const file = this.selectedFile;
     this.selectedFile = null; // Clear selected file
 
-    // Convert file to base64 if present
-    let fileData: { name: string, content: string } | undefined;
-    if (file) {
-      try {
-        const base64Content = await this.readFileAsBase64(file);
-        fileData = { name: file.name, content: base64Content };
-      } catch (error) {
-        console.error('Error reading file:', error);
-        this.errorMessage = 'Error reading file. Please try again.';
-        this.isLoading = false;
-        return;
-      }
-    }
-
     // Begin sending the message but don't await immediately
-    const sendPromise = this.llmSettingsService.sendMessage(message, fileData);
+    const sendPromise = this.llmSettingsService.sendMessage(message, file || undefined);
 
     // Immediately refresh chat session so the user's message shows
     // (The user message part of sendMessage in service already handles this)
@@ -121,20 +107,6 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
       }, 100);
     }
-  }
-
-  private readFileAsBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        // result is DataURL (e.g., data:application/pdf;base64,xxxxx)
-        // We need to extract only the base64 part
-        const base64String = (reader.result as string).split(',')[1];
-        resolve(base64String);
-      };
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
   }
 
   onFileSelected(event: Event): void {
