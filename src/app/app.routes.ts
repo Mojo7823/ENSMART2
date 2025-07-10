@@ -6,6 +6,8 @@ import { RobotInformationForm } from './robot-information-form/robot-information
 import { SharedLayout } from './shared-layout/shared-layout';
 import { PdfManagerComponent } from './pdf-manager/pdf-manager';
 import { SettingsComponent } from './settings/settings';
+import { ChatComponent } from './chat/chat';
+import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -17,6 +19,8 @@ export const routes: Routes = [
       { path: 'robot-classification', component: RobotClassificationComponent },
       { path: 'robot-information-form', component: RobotInformationForm },
       { path: 'pdf-manager', component: PdfManagerComponent },
+      { path: 'chat', component: ChatComponent },
+      { path: 'knowledge-base', component: KnowledgeBaseComponent },
       { path: 'settings', component: SettingsComponent }
     ]
   }
