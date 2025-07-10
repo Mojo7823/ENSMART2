@@ -218,6 +218,13 @@ export class ChatComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  isUserMessageWithImages(message: ChatMessage): boolean {
+    if (message.role === 'user' && Array.isArray(message.content)) {
+      return message.content.some(part => part.type === 'image_url');
+    }
+    return false;
+  }
+
   getUserMessageFilename(message: ChatMessage): string {
     if (this.isUserMessageWithFile(message)) {
       const filePart = (message.content as Array<any>).find(part => part.type === 'file');
@@ -226,10 +233,19 @@ export class ChatComponent implements OnInit, OnDestroy {
     return '';
   }
 
+  getImagesFromMessage(message: ChatMessage): string[] {
+    if (Array.isArray(message.content)) {
+      return message.content
+        .filter(part => part.type === 'image_url')
+        .map(part => (part as any).image_url?.url || '');
+    }
+    return [];
+  }
+
   getTextFromMessage(message: ChatMessage): string {
     if (Array.isArray(message.content)) {
-      const textPart = message.content.find(part => part.type === 'text');
-      return textPart ? (textPart as any).text : '';
+      const textParts = message.content.filter(part => part.type === 'text');
+      return textParts.map(part => (part as any).text).join('\n\n');
     }
     return message.content as string; // Fallback for simple string content (e.g., assistant messages)
   }

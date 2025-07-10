@@ -51,6 +51,12 @@
                 <mat-icon>attach_file</mat-icon>
                 <span>{{ getUserMessageFilename(message) }}</span>
               </div>
+              <!-- Display images if present -->
+              <div *ngIf="isUserMessageWithImages(message)" class="image-attachments">
+                <div *ngFor="let imageUrl of getImagesFromMessage(message)" class="image-attachment">
+                  <img [src]="imageUrl" alt="PDF page" class="pdf-image" />
+                </div>
+              </div>
               <!-- Display text part -->
               <div [innerHTML]="getTextFromMessage(message) | markdown"></div>
             </div>
