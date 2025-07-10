@@ -1,0 +1,225 @@
+/* Professional white theme for dashboard */
+.dashboard-content {
+  background: #ffffff;
+  padding: 0;
+}
+
+.welcome-section {
+  background: #ffffff;
+  padding: 32px 0;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 32px;
+}
+
+.welcome-section h1 {
+  color: #333333;
+  font-size: 2.5rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.welcome-section p {
+  color: #666666;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 0;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 24px;
+  margin-top: 0;
+}
+
+/* White professional card styling */
+.dashboard-card {
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12) !important;
+  border-color: #1976d2 !important;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #1976d2, #42a5f5);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover::before {
+  transform: translateX(0);
+}
+
+.dashboard-card mat-card-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 24px;
+  margin: -16px -16px 16px -16px;
+}
+
+.dashboard-card mat-card-title {
+  color: #333333;
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 0;
+}
+
+.dashboard-card mat-card-content {
+  padding: 20px 24px;
+}
+
+.dashboard-card mat-card-content p {
+  color: #666666;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.dashboard-card .mat-mdc-card-avatar {
+  background: #e3f2fd;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  margin-right: 16px;
+  transition: all 0.3s ease;
+}
+
+.dashboard-card:hover .mat-mdc-card-avatar {
+  background: #1976d2;
+  color: #ffffff;
+}
+
+/* Remove all the old colorful styling */
+.clickable-card {
+  transition: all 0.3s ease;
+}
+
+/* Chat section styling */
+.chat-section {
+  margin: 32px 0;
+}
+
+.chat-section h2 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chat-section h2::before {
+  content: '';
+  width: 4px;
+  height: 24px;
+  background: #1976d2;
+  border-radius: 2px;
+}
+
+/* Animation for staggered card appearance */
+.dashboard-cards .dashboard-card {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.dashboard-cards .dashboard-card:nth-child(1) { animation-delay: 0.1s; }
+.dashboard-cards .dashboard-card:nth-child(2) { animation-delay: 0.2s; }
+.dashboard-cards .dashboard-card:nth-child(3) { animation-delay: 0.3s; }
+.dashboard-cards .dashboard-card:nth-child(4) { animation-delay: 0.4s; }
+.dashboard-cards .dashboard-card:nth-child(5) { animation-delay: 0.5s; }
+.dashboard-cards .dashboard-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Enhanced dialog styling */
+.dialog-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.option-btn {
+  padding: 16px 24px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+  text-align: left;
+  justify-content: flex-start;
+  background: #1976d2;
+  color: white;
+  border: none;
+  font-weight: 600;
+}
+
+.option-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(25, 118, 210, 0.3);
+  background: #1565c0;
+}
+
+.option-btn mat-icon {
+  margin-right: 8px;
+  font-size: 1.5rem;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.dialog-actions button {
+  border-radius: 8px;
+  padding: 8px 24px;
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .dashboard-cards {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .welcome-section {
+    padding: 24px 0;
+  }
+  
+  .welcome-section h1 {
+    font-size: 2rem;
+  }
+}

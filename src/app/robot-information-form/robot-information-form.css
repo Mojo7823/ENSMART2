@@ -1,0 +1,101 @@
+/* Professional white theme for robot information form */
+.form-content {
+  padding: 24px;
+  background: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form-card {
+  max-width: 600px;
+  width: 100%;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+}
+
+.form-card mat-card-header {
+  background: #f8f9fa;
+  border-bottom: 1px solid #e0e0e0;
+  padding: 24px;
+  margin: -16px -16px 16px -16px;
+}
+
+.form-card mat-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333333;
+}
+
+.form-card .mat-mdc-card-avatar {
+  background: #e3f2fd;
+  color: #1976d2;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-right: 16px;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.form-field .mat-mdc-form-field {
+  width: 100%;
+}
+
+.form-field .mat-mdc-text-field-wrapper {
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.form-field .mat-mdc-text-field-wrapper:hover {
+  border-color: #1976d2;
+}
+
+.form-field .mat-mdc-text-field-wrapper.mdc-text-field--focused {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.form-actions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.form-actions button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.form-actions button:hover {
+  transform: translateY(-2px);
+}
+
+.form-actions button mat-icon {
+  margin-right: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .form-content {
+    padding: 16px;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}
