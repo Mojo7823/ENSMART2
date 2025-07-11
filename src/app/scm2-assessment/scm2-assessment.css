@@ -1,4 +1,4 @@
-.scm-assessment-container {
+.scm2-assessment-container {
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
@@ -34,7 +34,7 @@
   font-size: 2rem;
   width: 2rem;
   height: 2rem;
-  color: #2196F3;
+  color: #673ab7;
 }
 
 .question-section {
@@ -167,7 +167,7 @@ mat-divider {
 }
 
 @media (max-width: 768px) {
-  .scm-assessment-container {
+  .scm2-assessment-container {
     padding: 1rem;
   }
   

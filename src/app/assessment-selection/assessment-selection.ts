@@ -28,4 +28,8 @@ export class AssessmentSelection {
   navigateToSCM(): void {
     this.router.navigate(['/scm-assessment']);
   }
+
+  navigateToSCM2(): void {
+    this.router.navigate(['/scm2-assessment']);
+  }
 }

@@ -28,7 +28,15 @@ export class RobotInformationForm {
     name: '',
     firmwareVersion: '',
     mainFunction: '',
-    description: ''
+    description: '',
+    communicationProtocols: '',
+    securityMechanisms: '',
+    networkInterfaces: '',
+    authenticationMethods: '',
+    encryptionDetails: '',
+    environmentalContext: '',
+    interoperabilityRequirements: '',
+    assetCommunicationDetails: ''
   };
 
   constructor(
@@ -43,7 +51,12 @@ export class RobotInformationForm {
   }
 
   onSubmit(): void {
-    if (this.robotInfo.name || this.robotInfo.firmwareVersion || this.robotInfo.mainFunction || this.robotInfo.description) {
+    if (this.robotInfo.name || this.robotInfo.firmwareVersion || this.robotInfo.mainFunction || 
+        this.robotInfo.description || this.robotInfo.communicationProtocols || 
+        this.robotInfo.securityMechanisms || this.robotInfo.networkInterfaces || 
+        this.robotInfo.authenticationMethods || this.robotInfo.encryptionDetails || 
+        this.robotInfo.environmentalContext || this.robotInfo.interoperabilityRequirements ||
+        this.robotInfo.assetCommunicationDetails) {
       this.robotService.setRobotInformation(this.robotInfo);
       this.router.navigate(['/dashboard']);
     }

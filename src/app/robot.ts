@@ -11,6 +11,15 @@ export interface RobotInformation {
   firmwareVersion: string;
   mainFunction: string;
   description: string;
+  // SCM Assessment related fields
+  communicationProtocols: string;
+  securityMechanisms: string;
+  networkInterfaces: string;
+  authenticationMethods: string;
+  encryptionDetails: string;
+  environmentalContext: string;
+  interoperabilityRequirements: string;
+  assetCommunicationDetails: string;
 }
 
 export interface RobotData {
@@ -22,7 +31,7 @@ export interface RobotData {
 
 export interface AssessmentResults {
   scm1?: SCMAssessmentData;
-  // Add other assessment types here as needed
+  scm2?: SCM2AssessmentData;
 }
 
 export interface SCMAssessmentData {
@@ -32,6 +41,25 @@ export interface SCMAssessmentData {
   outcome: 'PASS' | 'FAIL' | 'NOT_APPLICABLE' | null;
   documentation: string;
   completedAt: Date;
+  // Additional information fields
+  securityMechanismDescription: string;
+  assetCommunicationDetails: string;
+  connectionEstablishmentDetails: string;
+  temporaryExposureScenario: string;
+  environmentalProtectionMeasures: string;
+}
+
+export interface SCM2AssessmentData {
+  question1: 'yes' | 'no' | null;
+  question2: 'yes' | 'no' | null;
+  outcome: 'PASS' | 'FAIL' | 'NOT_APPLICABLE' | null;
+  documentation: string;
+  completedAt: Date;
+  // Additional information fields
+  securityMechanismCapabilities: string;
+  threatProtectionDetails: string;
+  interoperabilityConstraints: string;
+  compensatingMeasures: string;
 }
 
 export interface UploadedFile {
@@ -40,6 +68,7 @@ export interface UploadedFile {
   type: string;
   uploadDate: string;
   data?: string; // Base64 encoded file data for PDF files
+  processingMethod: 'words' | 'images'; // PDF processing method
 }
 
 @Injectable({
@@ -113,6 +142,14 @@ export class RobotService {
     <firmwareVersion><![CDATA[${data.information.firmwareVersion || ''}]]></firmwareVersion>
     <mainFunction><![CDATA[${data.information.mainFunction || ''}]]></mainFunction>
     <description><![CDATA[${data.information.description || ''}]]></description>
+    <communicationProtocols><![CDATA[${data.information.communicationProtocols || ''}]]></communicationProtocols>
+    <securityMechanisms><![CDATA[${data.information.securityMechanisms || ''}]]></securityMechanisms>
+    <networkInterfaces><![CDATA[${data.information.networkInterfaces || ''}]]></networkInterfaces>
+    <authenticationMethods><![CDATA[${data.information.authenticationMethods || ''}]]></authenticationMethods>
+    <encryptionDetails><![CDATA[${data.information.encryptionDetails || ''}]]></encryptionDetails>
+    <environmentalContext><![CDATA[${data.information.environmentalContext || ''}]]></environmentalContext>
+    <interoperabilityRequirements><![CDATA[${data.information.interoperabilityRequirements || ''}]]></interoperabilityRequirements>
+    <assetCommunicationDetails><![CDATA[${data.information.assetCommunicationDetails || ''}]]></assetCommunicationDetails>
   </robotInformation>`;
     }
 
@@ -135,11 +172,54 @@ export class RobotService {
       <size>${file.size}</size>
       <type><![CDATA[${file.type}]]></type>
       <uploadDate><![CDATA[${file.uploadDate}]]></uploadDate>
+      <processingMethod><![CDATA[${file.processingMethod}]]></processingMethod>
       ${file.data ? `<data><![CDATA[${file.data}]]></data>` : ''}
     </file>`;
       });
       xml += `
   </uploadedFiles>`;
+    }
+
+    if (data.assessments) {
+      xml += `
+  <assessments>`;
+      
+      if (data.assessments.scm1) {
+        const scm1 = data.assessments.scm1;
+        xml += `
+    <scm1>
+      <question1><![CDATA[${scm1.question1 || ''}]]></question1>
+      <question2><![CDATA[${scm1.question2 || ''}]]></question2>
+      <question3><![CDATA[${scm1.question3 || ''}]]></question3>
+      <outcome><![CDATA[${scm1.outcome || ''}]]></outcome>
+      <documentation><![CDATA[${scm1.documentation || ''}]]></documentation>
+      <completedAt><![CDATA[${scm1.completedAt}]]></completedAt>
+      <securityMechanismDescription><![CDATA[${scm1.securityMechanismDescription || ''}]]></securityMechanismDescription>
+      <assetCommunicationDetails><![CDATA[${scm1.assetCommunicationDetails || ''}]]></assetCommunicationDetails>
+      <connectionEstablishmentDetails><![CDATA[${scm1.connectionEstablishmentDetails || ''}]]></connectionEstablishmentDetails>
+      <temporaryExposureScenario><![CDATA[${scm1.temporaryExposureScenario || ''}]]></temporaryExposureScenario>
+      <environmentalProtectionMeasures><![CDATA[${scm1.environmentalProtectionMeasures || ''}]]></environmentalProtectionMeasures>
+    </scm1>`;
+      }
+      
+      if (data.assessments.scm2) {
+        const scm2 = data.assessments.scm2;
+        xml += `
+    <scm2>
+      <question1><![CDATA[${scm2.question1 || ''}]]></question1>
+      <question2><![CDATA[${scm2.question2 || ''}]]></question2>
+      <outcome><![CDATA[${scm2.outcome || ''}]]></outcome>
+      <documentation><![CDATA[${scm2.documentation || ''}]]></documentation>
+      <completedAt><![CDATA[${scm2.completedAt}]]></completedAt>
+      <securityMechanismCapabilities><![CDATA[${scm2.securityMechanismCapabilities || ''}]]></securityMechanismCapabilities>
+      <threatProtectionDetails><![CDATA[${scm2.threatProtectionDetails || ''}]]></threatProtectionDetails>
+      <interoperabilityConstraints><![CDATA[${scm2.interoperabilityConstraints || ''}]]></interoperabilityConstraints>
+      <compensatingMeasures><![CDATA[${scm2.compensatingMeasures || ''}]]></compensatingMeasures>
+    </scm2>`;
+      }
+      
+      xml += `
+  </assessments>`;
     }
 
     xml += `
@@ -174,7 +254,15 @@ export class RobotService {
           name: this.getTextContent(robotInfo, 'name'),
           firmwareVersion: this.getTextContent(robotInfo, 'firmwareVersion'),
           mainFunction: this.getTextContent(robotInfo, 'mainFunction'),
-          description: this.getTextContent(robotInfo, 'description')
+          description: this.getTextContent(robotInfo, 'description'),
+          communicationProtocols: this.getTextContent(robotInfo, 'communicationProtocols'),
+          securityMechanisms: this.getTextContent(robotInfo, 'securityMechanisms'),
+          networkInterfaces: this.getTextContent(robotInfo, 'networkInterfaces'),
+          authenticationMethods: this.getTextContent(robotInfo, 'authenticationMethods'),
+          encryptionDetails: this.getTextContent(robotInfo, 'encryptionDetails'),
+          environmentalContext: this.getTextContent(robotInfo, 'environmentalContext'),
+          interoperabilityRequirements: this.getTextContent(robotInfo, 'interoperabilityRequirements'),
+          assetCommunicationDetails: this.getTextContent(robotInfo, 'assetCommunicationDetails')
         };
       }
 
@@ -200,7 +288,8 @@ export class RobotService {
             size: parseInt(this.getTextContent(file, 'size')) || 0,
             type: this.getTextContent(file, 'type'),
             uploadDate: this.getTextContent(file, 'uploadDate'),
-            data: this.getTextContent(file, 'data')
+            data: this.getTextContent(file, 'data'),
+            processingMethod: this.getTextContent(file, 'processingMethod') as 'words' | 'images' || 'words'
           };
           data.uploadedFiles.push(uploadedFile);
         }

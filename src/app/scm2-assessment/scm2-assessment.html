@@ -1,22 +1,22 @@
-<div class="scm-assessment-container">
+<div class="scm2-assessment-container">
   <div class="header-section">
-    <h1>SCM-1 Assessment</h1>
-    <p>Secure Communication Mechanism Assessment</p>
+    <h1>SCM-2 Assessment</h1>
+    <p>Secure Communication Mechanism Assessment - Best Practices</p>
   </div>
 
   <mat-card class="assessment-card">
     <mat-card-header>
-      <mat-icon mat-card-avatar>security</mat-icon>
+      <mat-icon mat-card-avatar>enhanced_encryption</mat-icon>
       <mat-card-title>Decision Flowchart</mat-card-title>
-      <mat-card-subtitle>Answer the following questions to determine compliance</mat-card-subtitle>
+      <mat-card-subtitle>For each secure communication mechanism identified as required by SCM-1, and for each communication of a security/network asset using it</mat-card-subtitle>
     </mat-card-header>
 
     <mat-card-content>
       <!-- Question 1 -->
       <div class="question-section">
-        <h3>Question 1: DT.SCM-1.DN-1</h3>
+        <h3>Question 1: DT.SCM-2.DN-1</h3>
         <p class="question-text">
-          <strong>Is the communication of the asset ensured by a secure communication mechanism?</strong>
+          <strong>Are best practices applied to protect the integrity and authenticity of the communicated asset?</strong>
         </p>
         <mat-radio-group [(ngModel)]="assessment.question1" (change)="onQuestion1Change()">
           <mat-radio-button value="yes">Yes</mat-radio-button>
@@ -27,24 +27,11 @@
       <!-- Question 2 -->
       <div class="question-section" *ngIf="showQuestion2">
         <mat-divider></mat-divider>
-        <h3>Question 2: DT.SCM-1.DN-2</h3>
+        <h3>Question 2: DT.SCM-2.DN-2</h3>
         <p class="question-text">
-          <strong>Is the temporary exposure of the asset required as part of establishing or managing a connection?</strong>
+          <strong>Is a deviation from best practice for integrity or authenticity protection inevitable for interoperability reasons?</strong>
         </p>
         <mat-radio-group [(ngModel)]="assessment.question2" (change)="onQuestion2Change()">
-          <mat-radio-button value="yes">Yes</mat-radio-button>
-          <mat-radio-button value="no">No</mat-radio-button>
-        </mat-radio-group>
-      </div>
-
-      <!-- Question 3 -->
-      <div class="question-section" *ngIf="showQuestion3">
-        <mat-divider></mat-divider>
-        <h3>Question 3: DT.SCM-1.DN-3</h3>
-        <p class="question-text">
-          <strong>Does the targeted environment ensure that the asset is not exposed to unauthorised entities?</strong>
-        </p>
-        <mat-radio-group [(ngModel)]="assessment.question3" (change)="onQuestion3Change()">
           <mat-radio-button value="yes">Yes</mat-radio-button>
           <mat-radio-button value="no">No</mat-radio-button>
         </mat-radio-group>
@@ -64,56 +51,46 @@
         </div>
       </div>
 
-      <!-- Documentation Field -->
+      <!-- Documentation Fields -->
       <div class="documentation-section" *ngIf="showOutcome">
         <h3>Assessment Information</h3>
         
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Security Mechanism Description</mat-label>
+          <mat-label>Security Mechanism Capabilities</mat-label>
           <textarea 
             matInput 
-            [(ngModel)]="assessment.securityMechanismDescription" 
-            placeholder="Describe the secure communication mechanism used, including protocols, equipment states, and security goals..."
+            [(ngModel)]="assessment.securityMechanismCapabilities" 
+            placeholder="Description of security mechanisms and crypto modes used (e.g., Cipher-based Message Authentication Codes (CMAC), TLS with specific cipher suites)..."
             rows="4">
           </textarea>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Asset Communication Details</mat-label>
+          <mat-label>Threat Protection Details</mat-label>
           <textarea 
             matInput 
-            [(ngModel)]="assessment.assetCommunicationDetails" 
-            placeholder="Describe how security/network assets are communicated..."
+            [(ngModel)]="assessment.threatProtectionDetails" 
+            placeholder="Description of how the mechanism protects against spoofing and tampering threats..."
+            rows="4">
+          </textarea>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width" *ngIf="assessment.outcome === 'NOT_APPLICABLE'">
+          <mat-label>Interoperability Constraints</mat-label>
+          <textarea 
+            matInput 
+            [(ngModel)]="assessment.interoperabilityConstraints" 
+            placeholder="Description of the interoperability constraint (e.g., 'Must connect to a legacy system that only supports protocol X')..."
             rows="3">
           </textarea>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Connection Establishment Details</mat-label>
+        <mat-form-field appearance="outline" class="full-width" *ngIf="assessment.outcome === 'NOT_APPLICABLE'">
+          <mat-label>Compensating Measures</mat-label>
           <textarea 
             matInput 
-            [(ngModel)]="assessment.connectionEstablishmentDetails" 
-            placeholder="Describe connection establishment processes and security measures..."
-            rows="3">
-          </textarea>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width" *ngIf="assessment.question2 === 'yes'">
-          <mat-label>Temporary Exposure Scenario</mat-label>
-          <textarea 
-            matInput 
-            [(ngModel)]="assessment.temporaryExposureScenario" 
-            placeholder="Describe the temporary exposure scenario and additional authentication measures..."
-            rows="3">
-          </textarea>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" class="full-width" *ngIf="assessment.question3 === 'yes'">
-          <mat-label>Environmental Protection Measures</mat-label>
-          <textarea 
-            matInput 
-            [(ngModel)]="assessment.environmentalProtectionMeasures" 
-            placeholder="Describe the physical or logical measures in the environment that protect communication..."
+            [(ngModel)]="assessment.compensatingMeasures" 
+            placeholder="Description of any compensating measures taken to mitigate the risk of using a weaker protocol..."
             rows="3">
           </textarea>
         </mat-form-field>

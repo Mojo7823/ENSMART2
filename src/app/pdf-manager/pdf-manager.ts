@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { RobotService, UploadedFile } from '../robot';
 
@@ -14,12 +17,15 @@ import { RobotService, UploadedFile } from '../robot';
   selector: 'app-pdf-manager',
   imports: [
     CommonModule,
+    FormsModule,
     MatCardModule,
     MatButtonModule,
     MatIconModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatRadioModule,
+    MatFormFieldModule
   ],
   template: `
     <div class="pdf-manager-content">
@@ -45,6 +51,34 @@ import { RobotService, UploadedFile } from '../robot';
               <input #fileInput type="file" accept=".pdf" (change)="onFileSelected($event)" style="display: none;">
             </div>
             <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
+            
+            <!-- Processing Method Selection -->
+            <div class="processing-method-section" *ngIf="!isUploading">
+              <h4>PDF Processing Method</h4>
+              <mat-radio-group 
+                [(ngModel)]="selectedProcessingMethod" 
+                (change)="onProcessingMethodChange()">
+                <mat-radio-button value="words">
+                  <span class="method-label">
+                    <mat-icon>text_fields</mat-icon>
+                    Extract Words
+                  </span>
+                  <span class="method-description">Extract text content from the PDF</span>
+                </mat-radio-button>
+                <mat-radio-button value="images">
+                  <span class="method-label">
+                    <mat-icon>image</mat-icon>
+                    Convert to Images
+                  </span>
+                  <span class="method-description">Convert PDF pages to images</span>
+                </mat-radio-button>
+              </mat-radio-group>
+              
+              <div class="processing-note" *ngIf="showProcessingMethodNotification">
+                <mat-icon>info</mat-icon>
+                <span>Default processing method (Extract Words) will be used if not selected.</span>
+              </div>
+            </div>
           </div>
 
           <!-- File List Section -->
@@ -55,7 +89,14 @@ import { RobotService, UploadedFile } from '../robot';
                 <mat-card-header>
                   <mat-icon mat-card-avatar>picture_as_pdf</mat-icon>
                   <mat-card-title>{{ file.name }}</mat-card-title>
-                  <mat-card-subtitle>{{ formatFileSize(file.size) }} • {{ formatDate(file.uploadDate) }}</mat-card-subtitle>
+                  <mat-card-subtitle>
+                    {{ formatFileSize(file.size) }} • {{ formatDate(file.uploadDate) }}
+                    <br>
+                    <span class="processing-method-info">
+                      <mat-icon>{{ file.processingMethod === 'words' ? 'text_fields' : 'image' }}</mat-icon>
+                      Processing: {{ file.processingMethod === 'words' ? 'Extract Words' : 'Convert to Images' }}
+                    </span>
+                  </mat-card-subtitle>
                 </mat-card-header>
                 <mat-card-actions>
                   <button mat-button (click)="viewPdf(file)">
@@ -179,6 +220,96 @@ import { RobotService, UploadedFile } from '../robot';
       margin: 0;
     }
 
+    .processing-method-section {
+      margin-top: 24px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    .processing-method-section h4 {
+      color: #333;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .processing-method-section mat-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .processing-method-section mat-radio-button {
+      display: block;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background: white;
+      transition: all 0.3s ease;
+    }
+
+    .processing-method-section mat-radio-button:hover {
+      border-color: #1976d2;
+      background: #f3f9ff;
+    }
+
+    .processing-method-section mat-radio-button.mat-mdc-radio-checked {
+      border-color: #1976d2;
+      background: #f3f9ff;
+    }
+
+    .method-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+
+    .method-description {
+      display: block;
+      font-size: 0.875rem;
+      color: #666;
+      margin-top: 4px;
+      margin-left: 32px;
+    }
+
+    .processing-note {
+      margin-top: 16px;
+      padding: 12px;
+      background: #e3f2fd;
+      border-radius: 6px;
+      border: 1px solid #bbdefb;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #1976d2;
+    }
+
+    .processing-note mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    .processing-method-info {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 4px;
+    }
+
+    .processing-method-info mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+
     .file-list-section {
       margin-bottom: 32px;
     }
@@ -290,6 +421,8 @@ import { RobotService, UploadedFile } from '../robot';
 export class PdfManagerComponent implements OnInit {
   uploadedFiles: UploadedFile[] = [];
   isUploading = false;
+  selectedProcessingMethod: 'words' | 'images' = 'words';
+  showProcessingMethodNotification = false;
 
   constructor(
     private robotService: RobotService,
@@ -309,6 +442,7 @@ export class PdfManagerComponent implements OnInit {
   onFileSelected(event: any): void {
     const file = event.target.files[0];
     if (file) {
+      this.checkProcessingMethodSelection();
       this.uploadFile(file);
     }
   }
@@ -324,7 +458,20 @@ export class PdfManagerComponent implements OnInit {
     
     const files = event.dataTransfer?.files;
     if (files && files.length > 0) {
+      this.checkProcessingMethodSelection();
       this.uploadFile(files[0]);
+    }
+  }
+
+  checkProcessingMethodSelection(): void {
+    if (!this.selectedProcessingMethod) {
+      this.selectedProcessingMethod = 'words';
+      this.showProcessingMethodNotification = true;
+      this.snackBar.open('Default processing method (Extract Words) will be used', 'Close', {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      });
     }
   }
 
@@ -357,14 +504,15 @@ export class PdfManagerComponent implements OnInit {
         size: file.size,
         type: file.type,
         uploadDate: new Date().toISOString(),
-        data: base64Data.split(',')[1] // Remove data URL prefix
+        data: base64Data.split(',')[1], // Remove data URL prefix
+        processingMethod: this.selectedProcessingMethod
       };
 
       this.robotService.addUploadedFile(uploadedFile);
       this.loadUploadedFiles();
       this.isUploading = false;
       
-      this.snackBar.open('PDF uploaded successfully', 'Close', {
+      this.snackBar.open(`PDF uploaded successfully with ${this.selectedProcessingMethod === 'words' ? 'word extraction' : 'image conversion'} method`, 'Close', {
         duration: 3000,
         horizontalPosition: 'center',
         verticalPosition: 'top'
@@ -381,6 +529,10 @@ export class PdfManagerComponent implements OnInit {
     };
     
     reader.readAsDataURL(file);
+  }
+
+  onProcessingMethodChange(): void {
+    this.showProcessingMethodNotification = false;
   }
 
   viewPdf(file: UploadedFile): void {
