@@ -10,6 +10,7 @@ import { ChatComponent } from './chat/chat';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base';
 import { AssessmentSelection } from './assessment-selection/assessment-selection';
 import { ScmAssessment } from './scm-assessment/scm-assessment';
+import { Scm2Assessment } from './scm2-assessment/scm2-assessment';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -20,6 +21,7 @@ export const routes: Routes = [
       { path: 'dashboard', component: Dashboard },
       { path: 'assessment-selection', component: AssessmentSelection },
       { path: 'scm-assessment', component: ScmAssessment },
+      { path: 'scm2-assessment', component: Scm2Assessment },
       { path: 'robot-classification', component: RobotClassificationComponent },
       { path: 'robot-information-form', component: RobotInformationForm },
       { path: 'pdf-manager', component: PdfManagerComponent },

@@ -9,16 +9,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
-import { RobotService } from '../robot';
-
-export interface SCMAssessmentData {
-  question1: 'yes' | 'no' | null;
-  question2: 'yes' | 'no' | null;
-  question3: 'yes' | 'no' | null;
-  outcome: 'PASS' | 'FAIL' | 'NOT_APPLICABLE' | null;
-  documentation: string;
-  completedAt: Date;
-}
+import { RobotService, SCMAssessmentData } from '../robot';
 
 @Component({
   selector: 'app-scm-assessment',
@@ -43,7 +34,12 @@ export class ScmAssessment implements OnInit {
     question3: null,
     outcome: null,
     documentation: '',
-    completedAt: new Date()
+    completedAt: new Date(),
+    securityMechanismDescription: '',
+    assetCommunicationDetails: '',
+    connectionEstablishmentDetails: '',
+    temporaryExposureScenario: '',
+    environmentalProtectionMeasures: ''
   };
 
   showQuestion2 = false;
@@ -61,6 +57,20 @@ export class ScmAssessment implements OnInit {
     if (robotData.assessments?.scm1) {
       this.assessment = { ...robotData.assessments.scm1 };
       this.updateFormState();
+    }
+    
+    // Pre-populate fields from robot information if available
+    if (robotData.information) {
+      const info = robotData.information;
+      if (!this.assessment.securityMechanismDescription && info.securityMechanisms) {
+        this.assessment.securityMechanismDescription = info.securityMechanisms;
+      }
+      if (!this.assessment.assetCommunicationDetails && info.assetCommunicationDetails) {
+        this.assessment.assetCommunicationDetails = info.assetCommunicationDetails;
+      }
+      if (!this.assessment.environmentalProtectionMeasures && info.environmentalContext) {
+        this.assessment.environmentalProtectionMeasures = info.environmentalContext;
+      }
     }
   }
 
