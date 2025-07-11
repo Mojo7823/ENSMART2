@@ -1,0 +1,97 @@
+<div class="scm-assessment-container">
+  <div class="header-section">
+    <h1>SCM-1 Assessment</h1>
+    <p>Secure Communication Mechanism Assessment</p>
+  </div>
+
+  <mat-card class="assessment-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>security</mat-icon>
+      <mat-card-title>Decision Flowchart</mat-card-title>
+      <mat-card-subtitle>Answer the following questions to determine compliance</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Question 1 -->
+      <div class="question-section">
+        <h3>Question 1: DT.SCM-1.DN-1</h3>
+        <p class="question-text">
+          <strong>Is the communication of the asset ensured by a secure communication mechanism?</strong>
+        </p>
+        <mat-radio-group [(ngModel)]="assessment.question1" (change)="onQuestion1Change()">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="question-section" *ngIf="showQuestion2">
+        <mat-divider></mat-divider>
+        <h3>Question 2: DT.SCM-1.DN-2</h3>
+        <p class="question-text">
+          <strong>Is the temporary exposure of the asset required as part of establishing or managing a connection?</strong>
+        </p>
+        <mat-radio-group [(ngModel)]="assessment.question2" (change)="onQuestion2Change()">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Question 3 -->
+      <div class="question-section" *ngIf="showQuestion3">
+        <mat-divider></mat-divider>
+        <h3>Question 3: DT.SCM-1.DN-3</h3>
+        <p class="question-text">
+          <strong>Does the targeted environment ensure that the asset is not exposed to unauthorised entities?</strong>
+        </p>
+        <mat-radio-group [(ngModel)]="assessment.question3" (change)="onQuestion3Change()">
+          <mat-radio-button value="yes">Yes</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Outcome -->
+      <div class="outcome-section" *ngIf="showOutcome">
+        <mat-divider></mat-divider>
+        <h3>Assessment Outcome</h3>
+        <div class="outcome-card" [ngClass]="'outcome-' + assessment.outcome?.toLowerCase()">
+          <div class="outcome-header">
+            <mat-icon>{{ assessment.outcome === 'PASS' ? 'check_circle' : 
+                           assessment.outcome === 'FAIL' ? 'error' : 'info' }}</mat-icon>
+            <h4>{{ assessment.outcome }}</h4>
+          </div>
+          <p class="outcome-description">{{ assessment.documentation }}</p>
+        </div>
+      </div>
+
+      <!-- Documentation Field -->
+      <div class="documentation-section" *ngIf="showOutcome">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Additional Documentation/Notes</mat-label>
+          <textarea 
+            matInput 
+            [(ngModel)]="assessment.documentation" 
+            placeholder="Add any additional documentation or notes for this assessment..."
+            rows="4">
+          </textarea>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="submitAssessment()" 
+        [disabled]="!canSubmit()">
+        <mat-icon>save</mat-icon>
+        Save Assessment
+      </button>
+      <button 
+        mat-button 
+        (click)="navigateBack()">
+        Cancel
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

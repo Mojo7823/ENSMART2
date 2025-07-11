@@ -1,0 +1,97 @@
+<div class="assessment-selection-container">
+  <div class="header-section">
+    <h1>Select Assessment Type</h1>
+    <p>Choose the type of assessment you want to perform</p>
+  </div>
+
+  <div class="assessment-cards">
+    <!-- ISO 13482 Card -->
+    <mat-card class="assessment-card clickable-card" (click)="navigateToISO13482()">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>smart_toy</mat-icon>
+        <mat-card-title>ISO 13482</mat-card-title>
+        <mat-card-subtitle>Personal Care Robot Safety</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Classify your robot based on ISO 13482 standards for personal care robots. This assessment helps determine safety requirements and risk categories.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- EN-18031 Card -->
+    <mat-card class="assessment-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>security</mat-icon>
+        <mat-card-title>EN-18031</mat-card-title>
+        <mat-card-subtitle>Cybersecurity Assessment</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Comprehensive cybersecurity assessment for robotic systems based on EN-18031 standards.</p>
+        
+        <mat-accordion class="assessment-categories">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>wifi</mat-icon>
+                Network
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="network-options">
+              <button mat-raised-button color="primary" (click)="navigateToSCM()" class="network-option">
+                <mat-icon>shield</mat-icon>
+                [SCM] Secure Communication Mechanism
+              </button>
+              <button mat-raised-button disabled class="network-option">
+                <mat-icon>monitor</mat-icon>
+                [NMM] Network Monitoring Mechanism
+              </button>
+              <button mat-raised-button disabled class="network-option">
+                <mat-icon>traffic</mat-icon>
+                [TCM] Traffic Control Mechanism
+              </button>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel disabled>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>memory</mat-icon>
+                Firmware
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Firmware security assessment (Coming Soon)</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel disabled>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>apps</mat-icon>
+                Application
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Application security assessment (Coming Soon)</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel disabled>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>psychology</mat-icon>
+                Intelligent
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>AI/ML security assessment (Coming Soon)</p>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel disabled>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>sensors</mat-icon>
+                Sensing
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <p>Sensor security assessment (Coming Soon)</p>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

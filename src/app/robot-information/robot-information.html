@@ -1,4 +1,4 @@
-<div class="robot-info-container" *ngIf="robotData && (robotData.classification || robotData.information)">
+<div class="robot-info-container" *ngIf="robotData && (robotData.classification || robotData.information || robotData.assessments)">
   <mat-card class="robot-info-card">
     <mat-card-header>
       <mat-icon mat-card-avatar>info</mat-icon>
@@ -7,8 +7,9 @@
     
     <mat-card-content>
       <div class="info-sections">
-        <div class="info-section" *ngIf="robotData.classification">
-          <h3>Classification</h3>
+        <!-- Classification Section -->
+        <div class="info-section clickable-section" *ngIf="robotData.classification" (click)="navigateToClassification()">
+          <h3>Classification <mat-icon class="edit-icon">edit</mat-icon></h3>
           <div class="classification-details">
             <div class="detail-item">
               <strong>Category:</strong> {{ robotData.classification.category }}
@@ -22,8 +23,9 @@
           </div>
         </div>
 
-        <div class="info-section" *ngIf="robotData.information">
-          <h3>Robot Details</h3>
+        <!-- Robot Details Section -->
+        <div class="info-section clickable-section" *ngIf="robotData.information" (click)="navigateToRobotForm()">
+          <h3>Robot Details <mat-icon class="edit-icon">edit</mat-icon></h3>
           <div class="robot-details">
             <div class="detail-item" *ngIf="robotData.information.name">
               <strong>Name:</strong> {{ robotData.information.name }}
@@ -36,6 +38,26 @@
             </div>
             <div class="detail-item" *ngIf="robotData.information.description">
               <strong>Description:</strong> {{ robotData.information.description }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Assessment Results Section -->
+        <div class="info-section clickable-section" *ngIf="robotData.assessments?.scm1" (click)="navigateToSCMAssessment()">
+          <h3>SCM-1 Assessment <mat-icon class="edit-icon">edit</mat-icon></h3>
+          <div class="assessment-details">
+            <div class="detail-item">
+              <strong>Outcome:</strong> 
+              <span class="outcome-badge" [ngClass]="'outcome-' + robotData.assessments?.scm1?.outcome?.toLowerCase()">
+                {{ robotData.assessments?.scm1?.outcome }}
+              </span>
+            </div>
+            <div class="detail-item" *ngIf="robotData.assessments?.scm1?.completedAt">
+              <strong>Completed:</strong> {{ robotData.assessments?.scm1?.completedAt | date:'medium' }}
+            </div>
+            <div class="detail-item" *ngIf="robotData.assessments?.scm1?.documentation">
+              <strong>Documentation:</strong> {{ robotData.assessments?.scm1?.documentation | slice:0:100 }}
+              <span *ngIf="(robotData.assessments?.scm1?.documentation?.length ?? 0) > 100">...</span>
             </div>
           </div>
         </div>
