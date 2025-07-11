@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -36,7 +36,7 @@ export interface SCMAssessmentData {
   templateUrl: './scm-assessment.html',
   styleUrl: './scm-assessment.css'
 })
-export class ScmAssessment {
+export class ScmAssessment implements OnInit {
   assessment: SCMAssessmentData = {
     question1: null,
     question2: null,
@@ -54,6 +54,32 @@ export class ScmAssessment {
     private router: Router,
     private robotService: RobotService
   ) {}
+
+  ngOnInit(): void {
+    // Load existing assessment data if it exists
+    const robotData = this.robotService.getRobotData();
+    if (robotData.assessments?.scm1) {
+      this.assessment = { ...robotData.assessments.scm1 };
+      this.updateFormState();
+    }
+  }
+
+  private updateFormState(): void {
+    // Update form state based on assessment data
+    if (this.assessment.question1 === 'no') {
+      this.showQuestion2 = true;
+      if (this.assessment.question2 === 'no') {
+        this.showQuestion3 = true;
+        if (this.assessment.question3 !== null) {
+          this.showOutcome = true;
+        }
+      } else if (this.assessment.question2 === 'yes') {
+        this.showOutcome = true;
+      }
+    } else if (this.assessment.question1 === 'yes') {
+      this.showOutcome = true;
+    }
+  }
 
   onQuestion1Change(): void {
     this.showQuestion2 = this.assessment.question1 === 'no';
