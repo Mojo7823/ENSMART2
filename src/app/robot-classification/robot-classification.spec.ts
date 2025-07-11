@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RobotClassification } from './robot-classification';
+import { RobotClassificationComponent } from './robot-classification';
 
-describe('RobotClassification', () => {
-  let component: RobotClassification;
-  let fixture: ComponentFixture<RobotClassification>;
+describe('RobotClassificationComponent', () => {
+  let component: RobotClassificationComponent;
+  let fixture: ComponentFixture<RobotClassificationComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RobotClassification]
+      imports: [RobotClassificationComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RobotClassification);
+    fixture = TestBed.createComponent(RobotClassificationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
