@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as pdfjsLib from 'pdfjs-dist';
 
 export interface LLMConfig {
   enabled: boolean;
@@ -19,6 +20,13 @@ export interface ChatMessageContentFile {
   };
 }
 
+export interface ChatMessageContentImage {
+  type: 'image_url';
+  image_url: {
+    url: string;
+  };
+}
+
 export interface UploadedFile {
   id: string;
   filename: string;
@@ -32,7 +40,7 @@ export interface ChatMessageContentText {
   text: string;
 }
 
-export type ChatMessageContent = string | Array<ChatMessageContentFile | ChatMessageContentText>;
+export type ChatMessageContent = string | Array<ChatMessageContentFile | ChatMessageContentText | ChatMessageContentImage>;
 
 
 export interface ChatMessage {
@@ -57,7 +65,12 @@ export class LLMSettingsService {
   private currentChatKey = 'currentChat';
   private uploadedFilesKey = 'uploadedFiles';
 
-  constructor() {}
+  constructor() {
+    // Set up PDF.js worker
+    if (typeof window !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = '/assets/pdf.worker.min.mjs';
+    }
+  }
 
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
@@ -173,6 +186,63 @@ export class LLMSettingsService {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
+  // PDF processing methods
+  async extractTextFromPdf(file: File): Promise<string> {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+      let extractedText = '';
+      
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items
+          .map((item: any) => item.str)
+          .join(' ');
+        extractedText += pageText + '\n\n';
+      }
+      
+      return extractedText.trim();
+    } catch (error) {
+      console.error('Error extracting text from PDF:', error);
+      throw new Error('Failed to extract text from PDF');
+    }
+  }
+
+  async convertPdfToImages(file: File, maxPages: number = 3): Promise<string[]> {
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+      const images: string[] = [];
+      const numPages = Math.min(pdf.numPages, maxPages);
+      
+      for (let i = 1; i <= numPages; i++) {
+        const page = await pdf.getPage(i);
+        const scale = 1.5;
+        const viewport = page.getViewport({ scale });
+        
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        
+        const renderContext = {
+          canvasContext: context!,
+          viewport: viewport
+        };
+        
+        await page.render(renderContext).promise;
+        const imageDataUrl = canvas.toDataURL('image/png');
+        images.push(imageDataUrl);
+      }
+      
+      return images;
+    } catch (error) {
+      console.error('Error converting PDF to images:', error);
+      throw new Error('Failed to convert PDF to images');
+    }
+  }
+
   // File upload management
   async uploadFile(file: File): Promise<string> {
     const config = this.getLLMConfig();
@@ -183,7 +253,7 @@ export class LLMSettingsService {
 
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('purpose', 'user_data');
+    formData.append('purpose', 'batch'); // Changed from 'user_data' to 'batch'
 
     try {
       const response = await fetch(`${config.apiHost}/files`, {
@@ -217,7 +287,7 @@ export class LLMSettingsService {
         filename: file.name,
         size: file.size,
         uploadDate: new Date(),
-        purpose: 'user_data'
+        purpose: 'batch'
       };
       
       this.saveUploadedFile(uploadedFile);
@@ -299,29 +369,86 @@ export class LLMSettingsService {
     }
 
     let userMessageContent: ChatMessageContent;
-    let fileId: string | undefined;
 
     if (file) {
-      // Upload file first
-      try {
-        fileId = await this.uploadFile(file);
-      } catch (error) {
-        console.error('Error uploading file:', error);
-        throw new Error('Failed to upload file. Please try again.');
-      }
-
-      userMessageContent = [
-        {
-          type: 'file',
-          file: {
-            filename: file.name,
-            file_id: fileId
+      // Check if file is PDF
+      if (file.type === 'application/pdf') {
+        // Try to extract text first (approach 2)
+        try {
+          const extractedText = await this.extractTextFromPdf(file);
+          
+          // If we have extracted text, use it
+          if (extractedText.trim()) {
+            userMessageContent = [
+              {
+                type: 'text',
+                text: `PDF Content (${file.name}):\n\n${extractedText}`
+              }
+            ];
+            // Add user message if provided
+            if (message.trim()) {
+              (userMessageContent as Array<ChatMessageContentText>).push({
+                type: 'text',
+                text: message
+              });
+            }
+          } else {
+            // If no text extracted, try image conversion (approach 1)
+            const images = await this.convertPdfToImages(file);
+            
+            userMessageContent = [
+              {
+                type: 'text',
+                text: `Please analyze this PDF document (${file.name}):`
+              }
+            ];
+            
+            // Add image content
+            for (const imageUrl of images) {
+              (userMessageContent as Array<ChatMessageContentText | ChatMessageContentImage>).push({
+                type: 'image_url',
+                image_url: {
+                  url: imageUrl
+                }
+              });
+            }
+            
+            // Add user message if provided
+            if (message.trim()) {
+              (userMessageContent as Array<ChatMessageContentText | ChatMessageContentImage>).push({
+                type: 'text',
+                text: message
+              });
+            }
           }
+        } catch (error) {
+          console.error('Error processing PDF:', error);
+          throw new Error('Failed to process PDF file. Please try again.');
         }
-      ];
-      // Add text part if message is not empty
-      if (message) {
-        (userMessageContent as Array<ChatMessageContentFile | ChatMessageContentText>).push({ type: 'text', text: message });
+      } else {
+        // For non-PDF files, use the old approach (if still supported)
+        try {
+          const fileId = await this.uploadFile(file);
+          userMessageContent = [
+            {
+              type: 'file',
+              file: {
+                filename: file.name,
+                file_id: fileId
+              }
+            }
+          ];
+          // Add text part if message is not empty
+          if (message) {
+            (userMessageContent as Array<ChatMessageContentFile | ChatMessageContentText>).push({ 
+              type: 'text', 
+              text: message 
+            });
+          }
+        } catch (error) {
+          console.error('Error uploading file:', error);
+          throw new Error('Failed to upload file. Please try again.');
+        }
       }
     } else {
       userMessageContent = message;
@@ -366,7 +493,7 @@ export class LLMSettingsService {
     if (apiMessages.filter(m => m.role === 'user').length === 1 && apiMessages[0].role !== 'system') {
       apiMessages.unshift({ // Corrected from 'messages.unshift' to 'apiMessages.unshift'
         role: 'system',
-        content: 'You are a helpful assistant for a cybersecurity robot platform. You can help with robot security assessments, classification, and general questions about robotics cybersecurity.'
+        content: 'You are a helpful assistant for a cybersecurity robot platform. You can help with robot security assessments, classification, and general questions about robotics cybersecurity. When analyzing PDFs, provide detailed analysis of the content including any technical diagrams, security vulnerabilities, or recommendations mentioned in the document.'
       });
     }
 
@@ -376,8 +503,22 @@ export class LLMSettingsService {
         content: Array.isArray(m.content) ? m.content : m.content
       }));
 
+      // Choose model based on content type
+      let modelToUse = config.model;
+      if (Array.isArray(userMessageContent)) {
+        const hasImages = userMessageContent.some(part => part.type === 'image_url');
+        if (hasImages) {
+          // Use a vision model if available
+          if (config.apiHost.includes('fireworks')) {
+            modelToUse = 'accounts/fireworks/models/qwen2p5-vl-32b-instruct';
+          } else if (config.apiHost.includes('openai')) {
+            modelToUse = 'gpt-4o';
+          }
+        }
+      }
+
       const requestBody = {
-        model: config.model,
+        model: modelToUse,
         messages: messagesForAPI,
         max_tokens: 1000,
         temperature: 0.7
@@ -385,7 +526,7 @@ export class LLMSettingsService {
 
       // Log the request body for debugging (excluding sensitive headers)
       // In a real app, be careful about logging potentially sensitive message content
-      console.debug('LLM API Request:', { host: config.apiHost, model: config.model, messagesCount: apiMessages.length }); // Corrected
+      console.debug('LLM API Request:', { host: config.apiHost, model: modelToUse, messagesCount: apiMessages.length }); // Corrected
 
 
       const response = await fetch(`${config.apiHost}/chat/completions`, {
