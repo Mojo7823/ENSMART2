@@ -17,6 +17,21 @@ export interface RobotData {
   classification?: RobotClassificationResult;
   information?: RobotInformation;
   uploadedFiles?: UploadedFile[];
+  assessments?: AssessmentResults;
+}
+
+export interface AssessmentResults {
+  scm1?: SCMAssessmentData;
+  // Add other assessment types here as needed
+}
+
+export interface SCMAssessmentData {
+  question1: 'yes' | 'no' | null;
+  question2: 'yes' | 'no' | null;
+  question3: 'yes' | 'no' | null;
+  outcome: 'PASS' | 'FAIL' | 'NOT_APPLICABLE' | null;
+  documentation: string;
+  completedAt: Date;
 }
 
 export interface UploadedFile {
@@ -62,6 +77,13 @@ export class RobotService {
     }
     const data = this.getRobotData();
     data.information = information;
+    sessionStorage.setItem(this.storageKey, JSON.stringify(data));
+  }
+
+  updateRobotData(data: RobotData): void {
+    if (!this.isBrowser()) {
+      return;
+    }
     sessionStorage.setItem(this.storageKey, JSON.stringify(data));
   }
 

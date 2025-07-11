@@ -1,0 +1,141 @@
+.assessment-selection-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-section {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header-section h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.header-section p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.assessment-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.assessment-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.assessment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.clickable-card {
+  cursor: pointer;
+}
+
+.clickable-card:hover {
+  background-color: #f8f9fa;
+}
+
+.assessment-card mat-card-header {
+  margin-bottom: 1rem;
+}
+
+.assessment-card mat-card-header mat-icon {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  color: #2196F3;
+}
+
+.assessment-card mat-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.assessment-card mat-card-subtitle {
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+.assessment-categories {
+  margin-top: 1.5rem;
+}
+
+.assessment-categories mat-expansion-panel {
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.assessment-categories mat-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.assessment-categories mat-panel-title mat-icon {
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+  color: #2196F3;
+}
+
+.network-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.network-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.2rem;
+  text-align: left;
+  justify-content: flex-start;
+  border-radius: 6px;
+}
+
+.network-option mat-icon {
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.network-option:not(:disabled) {
+  background-color: #2196F3;
+  color: white;
+}
+
+.network-option:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+}
+
+@media (max-width: 768px) {
+  .assessment-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .assessment-selection-container {
+    padding: 1rem;
+  }
+  
+  .header-section h1 {
+    font-size: 2rem;
+  }
+}

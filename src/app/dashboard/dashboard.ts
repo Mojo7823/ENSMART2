@@ -40,8 +40,8 @@ export class Dashboard {
     private robotService: RobotService
   ) {}
 
-  navigateToClassification(): void {
-    this.router.navigate(['/robot-classification']);
+  navigateToAssessmentSelection(): void {
+    this.router.navigate(['/assessment-selection']);
   }
 
   navigateToPdfManager(): void {

@@ -8,6 +8,8 @@ import { PdfManagerComponent } from './pdf-manager/pdf-manager';
 import { SettingsComponent } from './settings/settings';
 import { ChatComponent } from './chat/chat';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base';
+import { AssessmentSelection } from './assessment-selection/assessment-selection';
+import { ScmAssessment } from './scm-assessment/scm-assessment';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -16,6 +18,8 @@ export const routes: Routes = [
     component: SharedLayout,
     children: [
       { path: 'dashboard', component: Dashboard },
+      { path: 'assessment-selection', component: AssessmentSelection },
+      { path: 'scm-assessment', component: ScmAssessment },
       { path: 'robot-classification', component: RobotClassificationComponent },
       { path: 'robot-information-form', component: RobotInformationForm },
       { path: 'pdf-manager', component: PdfManagerComponent },
