@@ -140,5 +140,41 @@
         <mat-icon>close</mat-icon>
       </button>
     </div>
+    
+    <!-- PDF Processing Method Selection -->
+    <div *ngIf="selectedFile && selectedFile.type === 'application/pdf'" class="processing-method-selection">
+      <div class="processing-method-header">
+        <mat-icon>settings</mat-icon>
+        <span>PDF Processing Method</span>
+      </div>
+      <div class="processing-method-options">
+        <button 
+          mat-stroked-button 
+          [class.selected]="selectedProcessingMethod === 'text'"
+          (click)="selectedProcessingMethod = 'text'"
+          class="processing-method-button">
+          <mat-icon>text_fields</mat-icon>
+          <span>Extract Text</span>
+        </button>
+        <button 
+          mat-stroked-button 
+          [class.selected]="selectedProcessingMethod === 'images'"
+          (click)="selectedProcessingMethod = 'images'"
+          class="processing-method-button">
+          <mat-icon>image</mat-icon>
+          <span>Convert to Images</span>
+        </button>
+      </div>
+      <div class="processing-method-description">
+        <span *ngIf="selectedProcessingMethod === 'text'">
+          <mat-icon>info</mat-icon>
+          Extract text content from PDF for better text analysis
+        </span>
+        <span *ngIf="selectedProcessingMethod === 'images'">
+          <mat-icon>info</mat-icon>
+          Convert PDF pages to images for visual analysis
+        </span>
+      </div>
+    </div>
   </div>
 </div>
