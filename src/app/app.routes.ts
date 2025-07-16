@@ -11,6 +11,7 @@ import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base';
 import { AssessmentSelection } from './assessment-selection/assessment-selection';
 import { ScmAssessment } from './scm-assessment/scm-assessment';
 import { Scm2Assessment } from './scm2-assessment/scm2-assessment';
+import { LLMTestComponent } from './llm-test/llm-test.component';
 
 export const routes: Routes = [
   { path: '', component: Home },
@@ -27,7 +28,8 @@ export const routes: Routes = [
       { path: 'pdf-manager', component: PdfManagerComponent },
       { path: 'chat', component: ChatComponent },
       { path: 'knowledge-base', component: KnowledgeBaseComponent },
-      { path: 'settings', component: SettingsComponent }
+      { path: 'settings', component: SettingsComponent },
+      { path: 'llm-test', component: LLMTestComponent }
     ]
   }
 ];
