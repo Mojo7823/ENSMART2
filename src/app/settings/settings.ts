@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     enabled: false,
     provider: 'custom',
     apiKey: '',
-    apiHost: '/api',
+    apiHost: 'https://api.parasail.io/v1',
     model: 'parasail-gemma3-27b-it'
   };
 
@@ -63,7 +63,7 @@ export class SettingsComponent implements OnInit {
       enabled: false,
       provider: 'custom',
       apiKey: '',
-      apiHost: '/api',
+      apiHost: 'https://api.parasail.io/v1',
       model: 'parasail-gemma3-27b-it'
     };
   }
@@ -80,7 +80,7 @@ export class SettingsComponent implements OnInit {
         this.llmConfig.model = 'gpt-3.5-turbo';
         break;
       case 'custom':
-        this.llmConfig.apiHost = '/api';
+        this.llmConfig.apiHost = 'https://api.parasail.io/v1';
         this.llmConfig.model = 'parasail-gemma3-27b-it';
         break;
     }
