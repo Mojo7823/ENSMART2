@@ -105,7 +105,7 @@ export class LLMSettingsService {
       enabled: false,
       provider: 'custom',
       apiKey: '',
-      apiHost: 'https://api.parasail.io/v1',
+      apiHost: '/api',
       model: 'parasail-gemma3-27b-it'
     };
   }
