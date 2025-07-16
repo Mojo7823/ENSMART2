@@ -44,6 +44,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   isLLMConfigured: boolean = false;
   errorMessage: string = '';
   selectedFile: File | null = null;
+  selectedProcessingMethod: 'text' | 'images' = 'text';
 
   constructor(private llmSettingsService: LLMSettingsService) {}
 
@@ -82,7 +83,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.selectedFile = null; // Clear selected file
 
     // Begin sending the message but don't await immediately
-    const sendPromise = this.llmSettingsService.sendMessage(message, file || undefined);
+    const sendPromise = this.llmSettingsService.sendMessage(message, file || undefined, this.selectedProcessingMethod);
 
     // Immediately refresh chat session so the user's message shows
     // (The user message part of sendMessage in service already handles this)
@@ -134,6 +135,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   clearSelectedFile(): void {
     this.selectedFile = null;
+    this.selectedProcessingMethod = 'text'; // Reset to default
     // Also reset the file input if you have a reference to it
     // e.g., @ViewChild('fileInput') fileInputRef: ElementRef;
     // if (this.fileInputRef) { this.fileInputRef.nativeElement.value = ''; }

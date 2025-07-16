@@ -361,7 +361,7 @@ export class LLMSettingsService {
   }
 
   // LLM API interaction
-  async sendMessage(message: string, file?: File): Promise<string> {
+  async sendMessage(message: string, file?: File, processingMethod?: 'text' | 'images'): Promise<string> {
     const config = this.getLLMConfig();
 
     if (!this.isLLMConfigured()) {
@@ -373,18 +373,21 @@ export class LLMSettingsService {
     if (file) {
       // Check if file is PDF
       if (file.type === 'application/pdf') {
-        // Try to extract text first (approach 2)
+        // Use the selected processing method, default to text extraction
+        const method = processingMethod || 'text';
+        
         try {
-          const extractedText = await this.extractTextFromPdf(file);
-          
-          // If we have extracted text, use it
-          if (extractedText.trim()) {
+          if (method === 'text') {
+            // Extract text from PDF
+            const extractedText = await this.extractTextFromPdf(file);
+            
             userMessageContent = [
               {
                 type: 'text',
                 text: `PDF Content (${file.name}):\n\n${extractedText}`
               }
             ];
+            
             // Add user message if provided
             if (message.trim()) {
               (userMessageContent as Array<ChatMessageContentText>).push({
@@ -393,7 +396,7 @@ export class LLMSettingsService {
               });
             }
           } else {
-            // If no text extracted, try image conversion (approach 1)
+            // Convert PDF to images
             const images = await this.convertPdfToImages(file);
             
             userMessageContent = [
