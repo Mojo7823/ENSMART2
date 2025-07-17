@@ -104,7 +104,7 @@ export class LLMSettingsService {
     return {
       enabled: true,
       provider: 'custom',
-      apiKey: 'psk-natiqCLuO7zN-OjtU2TFsZqFY9u8NEjq2',
+      apiKey: '',
       apiHost: 'https://api.parasail.io/v1',
       model: 'parasail-gemma3-27b-it'
     };
