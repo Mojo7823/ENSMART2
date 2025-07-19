@@ -63,7 +63,7 @@ export class LLMSettingsService {
   private storageKey = 'llmSettings';
   private chatSessionsKey = 'chatSessions';
   private currentChatKey = 'currentChat';
-  private uploadedFilesKey = 'uploadedFiles';
+  private uploadedFilesKey = 'sessionUploadedFiles';
 
   constructor() {
     // Set up PDF.js worker
@@ -74,6 +74,10 @@ export class LLMSettingsService {
 
   private isBrowser(): boolean {
     return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+  }
+
+  private isSessionBrowser(): boolean {
+    return typeof window !== 'undefined' && typeof window.sessionStorage !== 'undefined';
   }
 
   getLLMConfig(): LLMConfig {
@@ -300,11 +304,11 @@ export class LLMSettingsService {
   }
 
   getUploadedFiles(): UploadedFile[] {
-    if (!this.isBrowser()) {
+    if (!this.isSessionBrowser()) {
       return [];
     }
     
-    const stored = localStorage.getItem(this.uploadedFilesKey);
+    const stored = sessionStorage.getItem(this.uploadedFilesKey);
     if (stored) {
       try {
         const files = JSON.parse(stored);
@@ -321,22 +325,49 @@ export class LLMSettingsService {
   }
 
   private saveUploadedFile(file: UploadedFile): void {
-    if (!this.isBrowser()) {
+    if (!this.isSessionBrowser()) {
       return;
     }
     
     const files = this.getUploadedFiles();
     files.push(file);
-    localStorage.setItem(this.uploadedFilesKey, JSON.stringify(files));
+    sessionStorage.setItem(this.uploadedFilesKey, JSON.stringify(files));
   }
 
   removeUploadedFile(fileId: string): void {
-    if (!this.isBrowser()) {
+    if (!this.isSessionBrowser()) {
       return;
     }
     
     const files = this.getUploadedFiles().filter(file => file.id !== fileId);
-    localStorage.setItem(this.uploadedFilesKey, JSON.stringify(files));
+    sessionStorage.setItem(this.uploadedFilesKey, JSON.stringify(files));
+  }
+
+  // Add a file to session tracking without uploading to API
+  private addFileToSession(file: File, fileId?: string): string {
+    const id = fileId || this.generateFileId();
+    const uploadedFile: UploadedFile = {
+      id: id,
+      filename: file.name,
+      size: file.size,
+      uploadDate: new Date(),
+      purpose: 'session'
+    };
+    
+    this.saveUploadedFile(uploadedFile);
+    return id;
+  }
+
+  private generateFileId(): string {
+    return 'file_' + Date.now().toString(36) + Math.random().toString(36).substr(2);
+  }
+
+  // Clear all session files when session ends
+  clearSessionFiles(): void {
+    if (!this.isSessionBrowser()) {
+      return;
+    }
+    sessionStorage.removeItem(this.uploadedFilesKey);
   }
 
   /**
@@ -373,6 +404,9 @@ export class LLMSettingsService {
     if (file) {
       // Check if file is PDF
       if (file.type === 'application/pdf') {
+        // Add file to session tracking for knowledge base
+        this.addFileToSession(file);
+        
         // Use the selected processing method, default to text extraction
         const method = processingMethod || 'text';
         
