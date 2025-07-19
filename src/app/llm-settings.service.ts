@@ -523,7 +523,7 @@ export class LLMSettingsService {
       const requestBody = {
         model: modelToUse,
         messages: messagesForAPI,
-        max_tokens: 1000,
+        max_tokens: 4096,
         temperature: 0.7
       };
 
@@ -647,7 +647,7 @@ export class LLMSettingsService {
       const requestBody = {
         model: config.model,
         messages: messagesForAPI,
-        max_tokens: 1000,
+        max_tokens: 4096,
         temperature: 0.7
       };
 
