@@ -40,6 +40,10 @@ export class KnowledgeBaseComponent implements OnInit {
     this.uploadedFiles = this.llmSettingsService.getUploadedFiles();
   }
 
+  refreshFiles() {
+    this.loadUploadedFiles();
+  }
+
   removeFile(file: UploadedFile) {
     if (confirm(`Are you sure you want to remove "${file.filename}" from the knowledge base?`)) {
       this.llmSettingsService.removeUploadedFile(file.id);
