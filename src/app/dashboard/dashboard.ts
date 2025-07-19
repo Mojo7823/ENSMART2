@@ -44,8 +44,8 @@ export class Dashboard {
     this.router.navigate(['/assessment-selection']);
   }
 
-  navigateToPdfManager(): void {
-    this.router.navigate(['/pdf-manager']);
+  navigateToKnowledgeBase(): void {
+    this.router.navigate(['/knowledge-base']);
   }
 
   openAddInformationDialog(): void {

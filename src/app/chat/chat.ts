@@ -149,7 +149,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   clearChat() {
-    if (confirm('Are you sure you want to clear all chat messages?')) {
+    if (confirm('Are you sure you want to clear all chat messages? This will not affect your knowledge base files.')) {
       this.llmSettingsService.clearCurrentChatSession();
       this.chatSession = this.llmSettingsService.createNewChatSession();
       this.errorMessage = '';

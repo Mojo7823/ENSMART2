@@ -1,0 +1,40 @@
+
+> cybersecurity-company@0.0.0 start
+> ng serve
+
+[33m❯[39m Building...
+[32m✔[39m Building...
+[35mBrowser bundles[39m     
+[1mInitial chunk files[22m [2m | [22m[1mNames[22m           [2m | [22m [1mRaw size[22m
+[32mmain.js[39m             [2m | [22m[2mmain[22m            [2m | [22m[36m465.41 kB[39m[2m | [22m
+[32mstyles.css[39m          [2m | [22m[2mstyles[22m          [2m | [22m  [36m7.68 kB[39m[2m | [22m
+[32mpolyfills.js[39m        [2m | [22m[2mpolyfills[22m       [2m | [22m [36m95 bytes[39m[2m | [22m
+
+[1m [22m                   [2m | [22m[1mInitial total[22m   [2m | [22m[1m473.18 kB[22m
+
+
+[35mServer bundles[39m      
+[1mInitial chunk files[22m [2m | [22m[1mNames[22m           [2m | [22m [1mRaw size[22m
+[32mmain.server.mjs[39m     [2m | [22m[2mmain.server[22m     [2m | [22m[36m466.78 kB[39m[2m | [22m
+[32mserver.mjs[39m          [2m | [22m[2mserver[22m          [2m | [22m  [36m1.79 kB[39m[2m | [22m
+[32mpolyfills.server.mjs[39m[2m | [22m[2mpolyfills.server[22m[2m | [22m[36m266 bytes[39m[2m | [22m
+
+Application bundle generation complete. [7.217 seconds]
+
+Watch mode enabled. Watching for file changes...
+NOTE: Raw file sizes do not reflect development server per-request transformations.
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m4200[22m/[39m
+[1m[33m[2m7:19:52 PM[22m[1m [33m[1m[vite][22m[1m[33m [33m[2m(ssr)[22m[1m[33m [33mwarning: 
+[36m/workspaces/ENSMART2/.angular/cache/20.0.5/cybersecurity-company/vite/deps_ssr/pdfjs-dist.js[33m
+[0m12225|        const worker = yield import(
+12226|          /*webpackIgnore: true*/
+12227|          this.workerSrc
+   |          ^^^^^^^^^^^^^^
+12228|        );
+12229|        return worker.WorkerMessageHandler;[0m[33m
+The above dynamic import cannot be analyzed by Vite.
+See [34mhttps://github.com/rollup/plugins/tree/master/packages/dynamic-import-vars#limitations[33m for supported dynamic import formats. If this is intended to be left as-is, you can use the /* @vite-ignore */ comment inside the import() call to suppress this warning.
+[33m[33m
+  Plugin: [35mvite:import-analysis[33m
+  File: [36m/workspaces/ENSMART2/.angular/cache/20.0.5/cybersecurity-company/vite/deps_ssr/pdfjs-dist.js?v=acd1bbf1[33m[39m[22m
+Warning: Please use the `legacy` build in Node.js environments.

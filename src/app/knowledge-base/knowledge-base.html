@@ -4,7 +4,7 @@
       <mat-icon class="header-icon">library_books</mat-icon>
       <div class="header-text">
         <h2>Knowledge Base</h2>
-        <p>Manage your uploaded PDF files for AI conversations</p>
+        <p>Upload and manage your PDF files for AI conversations</p>
       </div>
       <div class="header-actions">
         <button mat-icon-button (click)="refreshFiles()" matTooltip="Refresh file list">
@@ -15,10 +15,58 @@
   </div>
 
   <div class="knowledge-base-content">
+    <!-- Upload Section -->
+    <mat-card class="upload-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>cloud_upload</mat-icon>
+        <mat-card-title>Upload PDF Document</mat-card-title>
+        <mat-card-subtitle>Add documents to your knowledge base</mat-card-subtitle>
+      </mat-card-header>
+      
+      <mat-card-content>
+        <div class="upload-section">
+          <div class="upload-area" 
+               (click)="fileInput.click()" 
+               (dragover)="onDragOver($event)" 
+               (drop)="onDrop($event)"
+               [class.uploading]="isUploading">
+            <mat-icon>cloud_upload</mat-icon>
+            <p *ngIf="!isUploading">Click to browse or drag & drop a PDF file here</p>
+            <p *ngIf="isUploading">Processing...</p>
+            <input #fileInput type="file" accept=".pdf" (change)="onFileSelected($event)" style="display: none;">
+          </div>
+          <mat-progress-bar *ngIf="isUploading" mode="indeterminate"></mat-progress-bar>
+          
+          <!-- Processing Method Selection -->
+          <div class="processing-method-section" *ngIf="!isUploading">
+            <h4>PDF Processing Method</h4>
+            <mat-radio-group 
+              [(ngModel)]="selectedProcessingMethod">
+              <mat-radio-button value="text">
+                <span class="method-label">
+                  <mat-icon>text_fields</mat-icon>
+                  Extract Text
+                </span>
+                <span class="method-description">Extract text content from the PDF</span>
+              </mat-radio-button>
+              <mat-radio-button value="images">
+                <span class="method-label">
+                  <mat-icon>image</mat-icon>
+                  Convert to Images
+                </span>
+                <span class="method-description">Convert PDF pages to images for visual analysis</span>
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Files List Section -->
     <mat-card class="files-card">
       <mat-card-header>
         <mat-icon mat-card-avatar>folder</mat-icon>
-        <mat-card-title>Uploaded Files</mat-card-title>
+        <mat-card-title>Knowledge Base Files</mat-card-title>
         <mat-card-subtitle>Files available for AI conversations</mat-card-subtitle>
       </mat-card-header>
       
@@ -26,7 +74,7 @@
         <div *ngIf="uploadedFiles.length === 0" class="no-files">
           <mat-icon class="no-files-icon">description</mat-icon>
           <h3>No files uploaded yet</h3>
-          <p>Upload PDF files through the chat interface to build your knowledge base.</p>
+          <p>Upload PDF files above to build your knowledge base.</p>
           <p class="hint">The AI assistant will use these files to provide contextual responses.</p>
         </div>
 
@@ -38,13 +86,29 @@
               <span class="file-size">{{ formatFileSize(file.size) }}</span>
               <span class="file-date">Uploaded: {{ formatDate(file.uploadDate) }}</span>
             </div>
-            <button 
-              mat-icon-button 
-              (click)="removeFile(file)"
-              matTooltip="Remove file from knowledge base"
-              class="remove-button">
-              <mat-icon>delete</mat-icon>
-            </button>
+            <div class="file-actions">
+              <button 
+                mat-icon-button 
+                (click)="viewFile(file)"
+                matTooltip="View file"
+                class="action-button">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button 
+                mat-icon-button 
+                (click)="downloadFile(file)"
+                matTooltip="Download file"
+                class="action-button">
+                <mat-icon>download</mat-icon>
+              </button>
+              <button 
+                mat-icon-button 
+                (click)="removeFile(file)"
+                matTooltip="Remove file from knowledge base"
+                class="remove-button">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
           </mat-list-item>
         </mat-list>
       </mat-card-content>
@@ -58,6 +122,7 @@
       </mat-card-actions>
     </mat-card>
 
+    <!-- Info Section -->
     <mat-card class="info-card">
       <mat-card-header>
         <mat-icon mat-card-avatar>info</mat-icon>
@@ -70,7 +135,7 @@
             <mat-icon class="info-icon">upload_file</mat-icon>
             <div class="info-text">
               <h4>Upload Files</h4>
-              <p>Attach PDF files to your chat messages to add them to your knowledge base.</p>
+              <p>Upload PDF files to your knowledge base or attach them directly in chat messages.</p>
             </div>
           </div>
           

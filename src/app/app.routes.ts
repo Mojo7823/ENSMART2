@@ -4,7 +4,7 @@ import { Home } from './home/home';
 import { RobotClassificationComponent } from './robot-classification/robot-classification';
 import { RobotInformationForm } from './robot-information-form/robot-information-form';
 import { SharedLayout } from './shared-layout/shared-layout';
-import { PdfManagerComponent } from './pdf-manager/pdf-manager';
+// Removed PDF manager - functionality merged into knowledge base
 import { SettingsComponent } from './settings/settings';
 import { ChatComponent } from './chat/chat';
 import { KnowledgeBaseComponent } from './knowledge-base/knowledge-base';
@@ -25,7 +25,7 @@ export const routes: Routes = [
       { path: 'scm2-assessment', component: Scm2Assessment },
       { path: 'robot-classification', component: RobotClassificationComponent },
       { path: 'robot-information-form', component: RobotInformationForm },
-      { path: 'pdf-manager', component: PdfManagerComponent },
+      // { path: 'pdf-manager', component: PdfManagerComponent }, // Removed - merged into knowledge base
       { path: 'chat', component: ChatComponent },
       { path: 'knowledge-base', component: KnowledgeBaseComponent },
       { path: 'settings', component: SettingsComponent },
