@@ -1,11 +1,11 @@
 <div class="dashboard-content">
   <div class="welcome-section">
     <h1>Welcome to Your Dashboard</h1>
-    <p>Manage your security assessments and product information</p>
+    <p>Manage your robot security assessments and information</p>
   </div>
 
-  <!-- Product Info Section -->
-  <app-product-info></app-product-info>
+  <!-- Robot Information Section -->
+  <app-robot-information></app-robot-information>
   
   <!-- Chat Section -->
   <div class="chat-section">
@@ -24,23 +24,23 @@
       </mat-card-content>
     </mat-card>
     
-    <mat-card class="dashboard-card clickable-card" (click)="navigateToDeviceAssessment()">
+    <mat-card class="dashboard-card clickable-card" (click)="navigateToAssessmentSelection()">
       <mat-card-header>
-        <mat-icon mat-card-avatar>assessment</mat-icon>
-        <mat-card-title>Device Assessment</mat-card-title>
+        <mat-icon mat-card-avatar>smart_toy</mat-icon>
+        <mat-card-title>Classify Robot</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>Evaluate device security based on standards.</p>
+        <p>Classify your robot based on ISO 13482 standards.</p>
       </mat-card-content>
     </mat-card>
     
-    <mat-card class="dashboard-card clickable-card" (click)="openAddProductInfoDialog()">
+    <mat-card class="dashboard-card clickable-card" (click)="openAddInformationDialog()">
       <mat-card-header>
-        <mat-icon mat-card-avatar>add_circle</mat-icon>
-        <mat-card-title>Add Product Info</mat-card-title>
+        <mat-icon mat-card-avatar>add</mat-icon>
+        <mat-card-title>Add Information</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>Add new product information and specifications.</p>
+        <p>Add new assets or information.</p>
       </mat-card-content>
     </mat-card>
     
@@ -50,7 +50,7 @@
         <mat-card-title>Edit Information</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <p>Update existing product information.</p>
+        <p>Update existing assets or information.</p>
       </mat-card-content>
     </mat-card>
     

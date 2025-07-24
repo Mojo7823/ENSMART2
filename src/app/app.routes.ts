@@ -3,7 +3,6 @@ import { Dashboard } from './dashboard/dashboard';
 import { Home } from './home/home';
 import { RobotClassificationComponent } from './robot-classification/robot-classification';
 import { RobotInformationForm } from './robot-information-form/robot-information-form';
-import { ProductInfoComponent } from './product-info/product-info';
 import { SharedLayout } from './shared-layout/shared-layout';
 // Removed PDF manager - functionality merged into knowledge base
 import { SettingsComponent } from './settings/settings';
@@ -21,7 +20,6 @@ export const routes: Routes = [
     component: SharedLayout,
     children: [
       { path: 'dashboard', component: Dashboard },
-      { path: 'product-info', component: ProductInfoComponent },
       { path: 'assessment-selection', component: AssessmentSelection },
       { path: 'scm-assessment', component: ScmAssessment },
       { path: 'scm2-assessment', component: Scm2Assessment },
