@@ -7,7 +7,6 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-shared-layout',
@@ -22,7 +21,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MatIconModule,
     MatButtonModule,
     MatMenuModule,
-    MatExpansionModule,
   ],
   templateUrl: './shared-layout.html',
   styleUrl: './shared-layout.css',
