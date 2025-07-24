@@ -1,0 +1,248 @@
+<div class="technical-documentation-container">
+  <div class="header-section">
+    <button mat-icon-button (click)="goBack()" class="back-button">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Technical Documentation</h1>
+  </div>
+
+  <form [formGroup]="technicalForm" (ngSubmit)="onSubmit()">
+    <mat-card class="documentation-card">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>description</mat-icon>
+        <mat-card-title>Product Technical Specifications</mat-card-title>
+        <mat-card-subtitle>Fill in the technical details for your product</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="form-sections">
+          <!-- Basic Information Section -->
+          <div class="form-section">
+            <h3>Basic Information</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Product Name *</mat-label>
+                <input matInput formControlName="productName" placeholder="Enter product name">
+                <mat-error *ngIf="technicalForm.get('productName')?.invalid && technicalForm.get('productName')?.touched">
+                  Product name is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Model Number *</mat-label>
+                <input matInput formControlName="modelNumber" placeholder="Enter model number">
+                <mat-error *ngIf="technicalForm.get('modelNumber')?.invalid && technicalForm.get('modelNumber')?.touched">
+                  Model number is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Serial Number</mat-label>
+                <input matInput formControlName="serialNumber" placeholder="Enter serial number">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Manufacturer *</mat-label>
+                <input matInput formControlName="manufacturer" placeholder="Enter manufacturer">
+                <mat-error *ngIf="technicalForm.get('manufacturer')?.invalid && technicalForm.get('manufacturer')?.touched">
+                  Manufacturer is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Version *</mat-label>
+                <input matInput formControlName="version" placeholder="Enter version">
+                <mat-error *ngIf="technicalForm.get('version')?.invalid && technicalForm.get('version')?.touched">
+                  Version is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Operating System</mat-label>
+                <input matInput formControlName="operatingSystem" placeholder="Enter operating system">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Hardware Specifications Section -->
+          <div class="form-section">
+            <h3>Hardware Specifications</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Processor Type</mat-label>
+                <input matInput formControlName="processorType" placeholder="Enter processor type">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Memory Size</mat-label>
+                <input matInput formControlName="memorySize" placeholder="Enter memory size">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Storage Capacity</mat-label>
+                <input matInput formControlName="storageCapacity" placeholder="Enter storage capacity">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Power Requirements</mat-label>
+                <input matInput formControlName="powerRequirements" placeholder="Enter power requirements">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Physical Specifications Section -->
+          <div class="form-section">
+            <h3>Physical Specifications</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Operating Temperature</mat-label>
+                <input matInput formControlName="operatingTemperature" placeholder="Enter operating temperature range">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Dimensions</mat-label>
+                <input matInput formControlName="dimensions" placeholder="Enter dimensions (L x W x H)">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Weight</mat-label>
+                <input matInput formControlName="weight" placeholder="Enter weight">
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Network Capabilities</mat-label>
+                <input matInput formControlName="networkCapabilities" placeholder="Enter network capabilities">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Security & Compliance Section -->
+          <div class="form-section">
+            <h3>Security & Compliance</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Security Features</mat-label>
+                <textarea matInput formControlName="securityFeatures" rows="3" placeholder="Describe security features"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Compliance Standards</mat-label>
+                <textarea matInput formControlName="complianceStandards" rows="3" placeholder="List compliance standards"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Documentation Section -->
+          <div class="form-section">
+            <h3>Documentation Details</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Technical Specifications</mat-label>
+                <textarea matInput formControlName="technicalSpecifications" rows="4" placeholder="Enter detailed technical specifications"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Installation Instructions</mat-label>
+                <textarea matInput formControlName="installationInstructions" rows="4" placeholder="Enter installation instructions"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Maintenance Schedule</mat-label>
+                <textarea matInput formControlName="maintenanceSchedule" rows="3" placeholder="Enter maintenance schedule"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Troubleshooting Guide</mat-label>
+                <textarea matInput formControlName="troubleshootingGuide" rows="4" placeholder="Enter troubleshooting guide"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Safety Instructions</mat-label>
+                <textarea matInput formControlName="safetyInstructions" rows="3" placeholder="Enter safety instructions"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Support Information Section -->
+          <div class="form-section">
+            <h3>Support Information</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Warranty Information</mat-label>
+                <textarea matInput formControlName="warrantyInformation" rows="3" placeholder="Enter warranty information"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field-full">
+                <mat-label>Support Contact</mat-label>
+                <textarea matInput formControlName="supportContact" rows="2" placeholder="Enter support contact information"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <!-- Documentation Metadata Section -->
+          <div class="form-section">
+            <h3>Documentation Metadata</h3>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Documentation Version *</mat-label>
+                <input matInput formControlName="documentationVersion" placeholder="Enter version">
+                <mat-error *ngIf="technicalForm.get('documentationVersion')?.invalid && technicalForm.get('documentationVersion')?.touched">
+                  Documentation version is required
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline" class="form-field">
+                <mat-label>Last Updated *</mat-label>
+                <input matInput type="date" formControlName="lastUpdated">
+                <mat-error *ngIf="technicalForm.get('lastUpdated')?.invalid && technicalForm.get('lastUpdated')?.touched">
+                  Last updated date is required
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-checkbox formControlName="isCompleted">
+                Mark documentation as completed
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions class="card-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="technicalForm.invalid">
+          <mat-icon>save</mat-icon>
+          Save Documentation
+        </button>
+        <button mat-button type="button" (click)="onReset()">
+          <mat-icon>refresh</mat-icon>
+          Reset Form
+        </button>
+        <button mat-button type="button" (click)="goBack()">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
