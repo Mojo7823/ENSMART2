@@ -1,0 +1,241 @@
+/* Professional white theme for product information */
+.product-info-container {
+  padding: 24px;
+  background-color: #f5f5f5;
+  min-height: 100vh;
+}
+
+.product-info-card {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-info-card mat-card-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  margin: -24px -24px 24px -24px;
+  padding: 24px;
+  border-radius: 8px 8px 0 0;
+}
+
+.product-info-card mat-card-header mat-icon {
+  color: white;
+}
+
+.product-info-card mat-card-title {
+  color: white;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.product-info-card mat-card-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  margin-top: 8px;
+}
+
+/* Accordion Styles */
+mat-accordion {
+  display: block;
+}
+
+mat-expansion-panel {
+  margin-bottom: 16px;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+mat-expansion-panel-header {
+  padding: 16px 24px;
+}
+
+.mat-expansion-panel-header-title mat-icon {
+  margin-right: 12px;
+  color: #667eea;
+}
+
+/* Info Sections */
+.info-sections {
+  padding: 16px 0;
+}
+
+.info-section {
+  margin-bottom: 24px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.clickable-section {
+  cursor: pointer;
+}
+
+.clickable-section:hover {
+  background: #f0f0f0;
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-section h3 {
+  margin: 0 0 16px 0;
+  color: #333;
+  font-size: 18px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.edit-icon {
+  color: #667eea;
+  font-size: 20px;
+}
+
+.detail-item {
+  margin-bottom: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.detail-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.detail-item strong {
+  color: #555;
+  margin-right: 8px;
+  min-width: 120px;
+  display: inline-block;
+}
+
+.outcome-badge {
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.outcome-pass {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.outcome-fail {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.outcome-pending {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+/* Technical Documentation Form */
+.technical-doc-form {
+  padding: 16px 0;
+}
+
+.technical-doc-form h3 {
+  color: #333;
+  margin-bottom: 24px;
+  font-size: 20px;
+  font-weight: 500;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 8px;
+}
+
+.technical-doc-form h4 {
+  color: #555;
+  margin: 32px 0 16px 0;
+  font-size: 16px;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 12px 16px;
+  border-left: 4px solid #667eea;
+  border-radius: 4px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.half-width {
+  width: calc(50% - 8px);
+}
+
+.compliance-questions {
+  background: #f8f9fa;
+  padding: 16px;
+  border-radius: 8px;
+  margin: 24px 0;
+}
+
+.form-actions {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.form-actions button {
+  padding: 12px 32px;
+  font-size: 16px;
+}
+
+.form-actions mat-icon {
+  margin-right: 8px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .product-info-container {
+    padding: 16px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .half-width {
+    width: 100%;
+  }
+  
+  .product-info-card mat-card-header {
+    margin: -16px -16px 16px -16px;
+    padding: 16px;
+  }
+}
+
+/* Material Design Overrides */
+.mat-mdc-form-field {
+  margin-bottom: 8px;
+}
+
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-outline {
+  color: #e0e0e0;
+}
+
+.mat-mdc-form-field-appearance-outline.mat-focused .mat-mdc-form-field-outline-thick {
+  color: #667eea;
+}
+
+.mat-mdc-form-field-appearance-outline .mat-mdc-form-field-label {
+  color: #666;
+}
+
+.mat-mdc-form-field-appearance-outline.mat-focused .mat-mdc-form-field-label {
+  color: #667eea;
+}

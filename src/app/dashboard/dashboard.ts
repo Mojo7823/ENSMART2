@@ -11,7 +11,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { RobotInformation } from '../robot-information/robot-information';
+import { ProductInfoComponent } from '../product-info/product-info';
 import { RobotService } from '../robot';
 import { SaveSessionDialog, LoadSessionDialog } from '../session-manager/session-manager';
 import { ChatComponent } from '../chat/chat';
@@ -27,7 +27,7 @@ import { ChatComponent } from '../chat/chat';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    RobotInformation,
+    ProductInfoComponent,
     ChatComponent,
   ],
   templateUrl: './dashboard.html',

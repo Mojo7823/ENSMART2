@@ -1,0 +1,279 @@
+<div class="product-info-container">
+  <mat-card class="product-info-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>inventory</mat-icon>
+      <mat-card-title>Product Information</mat-card-title>
+      <mat-card-subtitle>Comprehensive product details and technical documentation</mat-card-subtitle>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <mat-accordion>
+        <!-- Product Overview Section -->
+        <mat-expansion-panel *ngIf="robotData && (robotData.classification || robotData.information || robotData.assessments)">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>info</mat-icon>
+              Product Overview
+            </mat-panel-title>
+            <mat-panel-description>
+              Basic product information and classification
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="info-sections">
+            <!-- Classification Section -->
+            <div class="info-section clickable-section" *ngIf="robotData.classification" (click)="navigateToClassification()">
+              <h3>Classification <mat-icon class="edit-icon">edit</mat-icon></h3>
+              <div class="classification-details">
+                <div class="detail-item">
+                  <strong>Category:</strong> {{ robotData.classification.category }}
+                </div>
+                <div class="detail-item">
+                  <strong>Type:</strong> {{ robotData.classification.type }}
+                </div>
+                <div class="detail-item">
+                  <strong>Description:</strong> {{ robotData.classification.description }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Details Section -->
+            <div class="info-section clickable-section" *ngIf="robotData.information" (click)="navigateToRobotForm()">
+              <h3>Product Details <mat-icon class="edit-icon">edit</mat-icon></h3>
+              <div class="robot-details">
+                <div class="detail-item" *ngIf="robotData.information.name">
+                  <strong>Name:</strong> {{ robotData.information.name }}
+                </div>
+                <div class="detail-item" *ngIf="robotData.information.firmwareVersion">
+                  <strong>Firmware Version:</strong> {{ robotData.information.firmwareVersion }}
+                </div>
+                <div class="detail-item" *ngIf="robotData.information.mainFunction">
+                  <strong>Main Function:</strong> {{ robotData.information.mainFunction }}
+                </div>
+                <div class="detail-item" *ngIf="robotData.information.description">
+                  <strong>Description:</strong> {{ robotData.information.description }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Assessment Results Section -->
+            <div class="info-section clickable-section" *ngIf="robotData.assessments?.scm1" (click)="navigateToSCMAssessment()">
+              <h3>SCM-1 Assessment <mat-icon class="edit-icon">edit</mat-icon></h3>
+              <div class="assessment-details">
+                <div class="detail-item">
+                  <strong>Outcome:</strong> 
+                  <span class="outcome-badge" [ngClass]="'outcome-' + robotData.assessments?.scm1?.outcome?.toLowerCase()">
+                    {{ robotData.assessments?.scm1?.outcome }}
+                  </span>
+                </div>
+                <div class="detail-item" *ngIf="robotData.assessments?.scm1?.completedAt">
+                  <strong>Completed:</strong> {{ robotData.assessments?.scm1?.completedAt | date:'medium' }}
+                </div>
+                <div class="detail-item" *ngIf="robotData.assessments?.scm1?.documentation">
+                  <strong>Documentation:</strong> {{ robotData.assessments?.scm1?.documentation | slice:0:100 }}
+                  <span *ngIf="(robotData.assessments?.scm1?.documentation?.length ?? 0) > 100">...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Technical Documentation Section -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>description</mat-icon>
+              Technical Documentation
+            </mat-panel-title>
+            <mat-panel-description>
+              EN18031 Technical Documentation Form
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="technical-doc-form">
+            <h3>Technical Documentation - EN18031</h3>
+            
+            <!-- Date Section -->
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Date</mat-label>
+              <input matInput type="date" [(ngModel)]="technicalDoc.date">
+            </mat-form-field>
+
+            <!-- Device Information Section -->
+            <h4>Device Information</h4>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Device name</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.deviceName">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Hardware configuration (incl. Release Number and Serial Number)</mat-label>
+                <textarea matInput rows="2" [(ngModel)]="technicalDoc.hardwareConfig"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Operating system</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.operatingSystem">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Firmware version</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.firmwareVersion">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Intended functionality [E.Info.GEC-5.IntFunc]</mat-label>
+                <textarea matInput rows="3" [(ngModel)]="technicalDoc.intendedFunctionality" 
+                         placeholder="Provide a description of the intended functionality of the device"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>User Documentation</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.userDocumentation" 
+                       placeholder="Provide a link to the user documentation">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Documentation of the setup of the device [E.Info.GEC-2.Setup]</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.setupDocumentation" 
+                       placeholder="Indicate the page number in the user documentation where the setup of the device is documented">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Standard(s) applied</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.standardsApplied">
+              </mat-form-field>
+            </div>
+
+            <!-- Compliance Questions -->
+            <div class="compliance-questions">
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Is this equipment a network equipment? (Relevant if EN 18031-1 is applied)</mat-label>
+                  <mat-select [(ngModel)]="technicalDoc.isNetworkEquipment">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Is this equipment a children's toy? (Relevant if EN 18031-2 is applied)</mat-label>
+                  <mat-select [(ngModel)]="technicalDoc.isChildrensToy">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Is this equipment a childcare equipment? (Relevant if EN 18031-2 is applied)</mat-label>
+                  <mat-select [(ngModel)]="technicalDoc.isChildcareEquipment">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Is the equipment Internet connected? (Relevant if EN 18031-2 is applied)</mat-label>
+                  <mat-select [(ngModel)]="technicalDoc.isInternetConnected">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Does the device's primary intended functionality cover the processing of personal information of special categories?</mat-label>
+                  <mat-select [(ngModel)]="technicalDoc.processesPersonalInfo">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Device Manufacturer Section -->
+            <h4>Device Manufacturer</h4>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.manufacturerName">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Telephone number</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.manufacturerPhone">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Address</mat-label>
+                <textarea matInput rows="2" [(ngModel)]="technicalDoc.manufacturerAddress"></textarea>
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>E-mail address</mat-label>
+                <input matInput type="email" [(ngModel)]="technicalDoc.manufacturerEmail">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Additional information</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.manufacturerAdditionalInfo">
+              </mat-form-field>
+            </div>
+
+            <!-- Contact Person Section -->
+            <h4>Contact Person</h4>
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.contactPersonName">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Telephone number</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.contactPersonPhone">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>E-mail address</mat-label>
+                <input matInput type="email" [(ngModel)]="technicalDoc.contactPersonEmail">
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="half-width">
+                <mat-label>Additional information</mat-label>
+                <input matInput [(ngModel)]="technicalDoc.contactPersonAdditionalInfo">
+              </mat-form-field>
+            </div>
+
+            <div class="form-actions">
+              <button mat-raised-button color="primary" (click)="saveTechnicalDocumentation()">
+                <mat-icon>save</mat-icon>
+                Save Technical Documentation
+              </button>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>
