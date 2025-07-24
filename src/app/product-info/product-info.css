@@ -1,0 +1,92 @@
+.product-info-container {
+  margin: 1rem 0;
+}
+
+.product-info-card {
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-info-card mat-card-header mat-icon {
+  color: #2196f3;
+}
+
+.clickable-section {
+  position: relative;
+  cursor: pointer;
+  padding: 1rem;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.clickable-section:hover {
+  background-color: #f5f5f5;
+}
+
+.detail-item {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.detail-item strong {
+  color: #333;
+  margin-right: 0.5rem;
+}
+
+.edit-icon, .add-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: #666;
+  font-size: 20px;
+}
+
+.add-icon {
+  color: #4caf50;
+}
+
+.outcome-badge {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.outcome-pass {
+  background-color: #e8f5e8;
+  color: #2e7d32;
+}
+
+.outcome-fail {
+  background-color: #ffebee;
+  color: #c62828;
+}
+
+.outcome-partial {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+mat-accordion {
+  display: block;
+  margin-top: 1rem;
+}
+
+mat-expansion-panel {
+  margin-bottom: 0.5rem;
+}
+
+mat-panel-title mat-icon {
+  margin-right: 0.5rem;
+}
+
+.technical-docs {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: #666;
+}
+
+.technical-docs p {
+  margin: 0;
+  font-size: 1rem;
+}

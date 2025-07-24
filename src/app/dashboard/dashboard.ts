@@ -11,7 +11,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { RobotInformation } from '../robot-information/robot-information';
+import { ProductInfo } from '../product-info/product-info';
 import { RobotService } from '../robot';
 import { SaveSessionDialog, LoadSessionDialog } from '../session-manager/session-manager';
 import { ChatComponent } from '../chat/chat';
@@ -27,7 +27,7 @@ import { ChatComponent } from '../chat/chat';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    RobotInformation,
+    ProductInfo,
     ChatComponent,
   ],
   templateUrl: './dashboard.html',
@@ -49,8 +49,7 @@ export class Dashboard {
   }
 
   openAddInformationDialog(): void {
-    // For now, we'll create a simple dialog component inline
-    // In a real app, this would be a separate component
+    // Updated dialog with Technical Documentation option
     const dialogRef = this.dialog.open(AddInformationDialog, {
       width: '400px',
       data: {}
@@ -101,7 +100,7 @@ export class Dashboard {
   }
 }
 
-// Simple dialog component for Add Information
+// Updated dialog component for Add Information
 @Component({
   selector: 'add-information-dialog',
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
@@ -112,19 +111,19 @@ export class Dashboard {
       <div class="dialog-options">
         <button mat-raised-button color="primary" (click)="selectOption('robot-info')" class="option-btn">
           <mat-icon>info</mat-icon>
-          Robot Information
+          Basic Product Information
+        </button>
+        <button mat-raised-button color="primary" (click)="selectOption('technical-docs')" class="option-btn">
+          <mat-icon>description</mat-icon>
+          Technical Documentation
         </button>
         <button mat-raised-button color="primary" (click)="selectOption('robot-specs')" class="option-btn">
           <mat-icon>settings</mat-icon>
-          Robot Specifications
+          Product Specifications
         </button>
         <button mat-raised-button color="primary" (click)="selectOption('robot-compliance')" class="option-btn">
           <mat-icon>verified</mat-icon>
-          Robot Compliance
-        </button>
-        <button mat-raised-button color="primary" (click)="selectOption('robot-features')" class="option-btn">
-          <mat-icon>star</mat-icon>
-          Robot Features
+          Compliance Information
         </button>
       </div>
     </mat-dialog-content>
@@ -156,12 +155,19 @@ export class AddInformationDialog {
   ) {}
 
   selectOption(option: string): void {
-    if (option === 'robot-info') {
-      this.dialog.closeAll();
-      this.router.navigate(['/robot-information-form']);
-    } else {
-      // For now, just close the dialog for other options
-      this.dialog.closeAll();
+    this.dialog.closeAll();
+    
+    switch (option) {
+      case 'robot-info':
+        this.router.navigate(['/robot-information-form']);
+        break;
+      case 'technical-docs':
+        this.router.navigate(['/technical-documentation']);
+        break;
+      default:
+        // For other options, navigate to technical documentation for now
+        this.router.navigate(['/technical-documentation']);
+        break;
     }
   }
 

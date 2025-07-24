@@ -63,6 +63,62 @@
   margin-right: 16px;
 }
 
+/* Sidebar Accordion Styles */
+.sidebar-accordion {
+  margin: 4px 16px;
+  box-shadow: none;
+  background: transparent;
+}
+
+.sidebar-accordion-header {
+  padding: 12px 0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-accordion-header:hover {
+  background: #f8f9fa;
+}
+
+.sidebar-panel-title {
+  display: flex;
+  align-items: center;
+  color: #5f6368;
+  font-weight: 500;
+}
+
+.sidebar-panel-title mat-icon {
+  margin-right: 16px;
+  color: inherit;
+}
+
+.sidebar-accordion-content {
+  padding: 0;
+}
+
+.submenu-item {
+  margin: 2px 0 !important;
+  padding-left: 48px !important;
+  font-size: 0.9rem;
+  border-radius: 6px;
+}
+
+.submenu-item:hover {
+  background: #f0f7ff !important;
+}
+
+.submenu-item.active {
+  background: #e3f2fd !important;
+  color: #1976d2;
+}
+
+.submenu-item mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  margin-right: 12px;
+}
+
 /* Main content area */
 .main-content {
   background: #fafafa;
@@ -94,6 +150,15 @@
 
 .main-toolbar button:hover {
   color: #1976d2;
+}
+
+/* Override expansion panel default styles for sidebar */
+.sidebar-accordion .mat-expansion-panel-body {
+  padding: 0 !important;
+}
+
+.sidebar-accordion .mat-expansion-indicator {
+  color: #5f6368;
 }
 
 /* Responsive design */

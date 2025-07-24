@@ -1,0 +1,115 @@
+<div class="product-info-container" *ngIf="robotData && (robotData.classification || robotData.information || robotData.assessments)">
+  <mat-card class="product-info-card">
+    <mat-card-header>
+      <mat-icon mat-card-avatar>inventory</mat-icon>
+      <mat-card-title>Product Information</mat-card-title>
+    </mat-card-header>
+    
+    <mat-card-content>
+      <mat-accordion>
+        <!-- Product Classification Section -->
+        <mat-expansion-panel *ngIf="robotData.classification">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>category</mat-icon>
+              Product Classification
+            </mat-panel-title>
+            <mat-panel-description>
+              Robot classification details
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="classification-details clickable-section" (click)="navigateToClassification()">
+            <div class="detail-item">
+              <strong>Category:</strong> {{ robotData.classification.category }}
+            </div>
+            <div class="detail-item">
+              <strong>Type:</strong> {{ robotData.classification.type }}
+            </div>
+            <div class="detail-item">
+              <strong>Description:</strong> {{ robotData.classification.description }}
+            </div>
+            <mat-icon class="edit-icon">edit</mat-icon>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Product Details Section -->
+        <mat-expansion-panel *ngIf="robotData.information">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>info</mat-icon>
+              Product Details
+            </mat-panel-title>
+            <mat-panel-description>
+              Basic product information
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="robot-details clickable-section" (click)="navigateToRobotForm()">
+            <div class="detail-item" *ngIf="robotData.information.name">
+              <strong>Name:</strong> {{ robotData.information.name }}
+            </div>
+            <div class="detail-item" *ngIf="robotData.information.firmwareVersion">
+              <strong>Firmware Version:</strong> {{ robotData.information.firmwareVersion }}
+            </div>
+            <div class="detail-item" *ngIf="robotData.information.mainFunction">
+              <strong>Main Function:</strong> {{ robotData.information.mainFunction }}
+            </div>
+            <div class="detail-item" *ngIf="robotData.information.description">
+              <strong>Description:</strong> {{ robotData.information.description }}
+            </div>
+            <mat-icon class="edit-icon">edit</mat-icon>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Technical Documentation Section -->
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>description</mat-icon>
+              Technical Documentation
+            </mat-panel-title>
+            <mat-panel-description>
+              Technical specifications and documentation
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="technical-docs clickable-section" (click)="navigateToTechnicalDoc()">
+            <p>Manage technical documentation and specifications for your product.</p>
+            <mat-icon class="add-icon">add_circle</mat-icon>
+          </div>
+        </mat-expansion-panel>
+
+        <!-- Assessment Results Section -->
+        <mat-expansion-panel *ngIf="robotData.assessments?.scm1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>assessment</mat-icon>
+              Assessment Results
+            </mat-panel-title>
+            <mat-panel-description>
+              Security assessment outcomes
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          
+          <div class="assessment-details clickable-section" (click)="navigateToSCMAssessment()">
+            <div class="detail-item">
+              <strong>SCM-1 Outcome:</strong> 
+              <span class="outcome-badge" [ngClass]="'outcome-' + robotData.assessments?.scm1?.outcome?.toLowerCase()">
+                {{ robotData.assessments?.scm1?.outcome }}
+              </span>
+            </div>
+            <div class="detail-item" *ngIf="robotData.assessments?.scm1?.completedAt">
+              <strong>Completed:</strong> {{ robotData.assessments?.scm1?.completedAt | date:'medium' }}
+            </div>
+            <div class="detail-item" *ngIf="robotData.assessments?.scm1?.documentation">
+              <strong>Documentation:</strong> {{ robotData.assessments?.scm1?.documentation | slice:0:100 }}
+              <span *ngIf="(robotData.assessments?.scm1?.documentation?.length ?? 0) > 100">...</span>
+            </div>
+            <mat-icon class="edit-icon">edit</mat-icon>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -13,10 +13,27 @@
         <mat-icon matListItemIcon>smart_toy</mat-icon>
         <span matListItemTitle>Robot Classification</span>
       </a>
-      <a mat-list-item routerLink="/robot-information-form" routerLinkActive="active">
-        <mat-icon matListItemIcon>info</mat-icon>
-        <span matListItemTitle>Robot Information</span>
-      </a>
+      
+      <!-- Product Info Accordion -->
+      <mat-expansion-panel class="sidebar-accordion">
+        <mat-expansion-panel-header class="sidebar-accordion-header">
+          <mat-panel-title class="sidebar-panel-title">
+            <mat-icon>inventory</mat-icon>
+            <span>Product Info</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="sidebar-accordion-content">
+          <a mat-list-item routerLink="/robot-information-form" routerLinkActive="active" class="submenu-item">
+            <mat-icon matListItemIcon>info</mat-icon>
+            <span matListItemTitle>Basic Information</span>
+          </a>
+          <a mat-list-item routerLink="/technical-documentation" routerLinkActive="active" class="submenu-item">
+            <mat-icon matListItemIcon>description</mat-icon>
+            <span matListItemTitle>Technical Documentation</span>
+          </a>
+        </div>
+      </mat-expansion-panel>
+      
       <a mat-list-item routerLink="/knowledge-base" routerLinkActive="active">
         <mat-icon matListItemIcon>library_books</mat-icon>
         <span matListItemTitle>Knowledge Base</span>
