@@ -11,7 +11,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { RobotInformation } from '../robot-information/robot-information';
+import { ProductInfoComponent } from '../product-info/product-info';
 import { RobotService } from '../robot';
 import { SaveSessionDialog, LoadSessionDialog } from '../session-manager/session-manager';
 import { ChatComponent } from '../chat/chat';
@@ -27,7 +27,7 @@ import { ChatComponent } from '../chat/chat';
     MatFormFieldModule,
     MatInputModule,
     FormsModule,
-    RobotInformation,
+    ProductInfoComponent,
     ChatComponent,
   ],
   templateUrl: './dashboard.html',
@@ -44,14 +44,18 @@ export class Dashboard {
     this.router.navigate(['/assessment-selection']);
   }
 
+  navigateToDeviceAssessment(): void {
+    this.router.navigate(['/assessment-selection']);
+  }
+
   navigateToKnowledgeBase(): void {
     this.router.navigate(['/knowledge-base']);
   }
 
-  openAddInformationDialog(): void {
+  openAddProductInfoDialog(): void {
     // For now, we'll create a simple dialog component inline
     // In a real app, this would be a separate component
-    const dialogRef = this.dialog.open(AddInformationDialog, {
+    const dialogRef = this.dialog.open(AddProductInfoDialog, {
       width: '400px',
       data: {}
     });
@@ -101,30 +105,30 @@ export class Dashboard {
   }
 }
 
-// Simple dialog component for Add Information
+// Simple dialog component for Add Product Info
 @Component({
-  selector: 'add-information-dialog',
+  selector: 'add-product-info-dialog',
   imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
   template: `
-    <h2 mat-dialog-title>Add Information</h2>
+    <h2 mat-dialog-title>Add Product Information</h2>
     <mat-dialog-content>
-      <p>Select the type of information to add:</p>
+      <p>Select the type of product information to add:</p>
       <div class="dialog-options">
-        <button mat-raised-button color="primary" (click)="selectOption('robot-info')" class="option-btn">
-          <mat-icon>info</mat-icon>
-          Robot Information
-        </button>
-        <button mat-raised-button color="primary" (click)="selectOption('robot-specs')" class="option-btn">
+        <button mat-raised-button color="primary" (click)="selectOption('product-specs')" class="option-btn">
           <mat-icon>settings</mat-icon>
-          Robot Specifications
+          Product Specifications
         </button>
-        <button mat-raised-button color="primary" (click)="selectOption('robot-compliance')" class="option-btn">
+        <button mat-raised-button color="primary" (click)="selectOption('tech-docs')" class="option-btn">
+          <mat-icon>description</mat-icon>
+          Technical Documentation
+        </button>
+        <button mat-raised-button color="primary" (click)="selectOption('compliance')" class="option-btn">
           <mat-icon>verified</mat-icon>
-          Robot Compliance
+          Compliance Information
         </button>
-        <button mat-raised-button color="primary" (click)="selectOption('robot-features')" class="option-btn">
+        <button mat-raised-button color="primary" (click)="selectOption('features')" class="option-btn">
           <mat-icon>star</mat-icon>
-          Robot Features
+          Product Features
         </button>
       </div>
     </mat-dialog-content>
@@ -149,16 +153,16 @@ export class Dashboard {
     }
   `]
 })
-export class AddInformationDialog {
+export class AddProductInfoDialog {
   constructor(
     private dialog: MatDialog,
     private router: Router
   ) {}
 
   selectOption(option: string): void {
-    if (option === 'robot-info') {
+    if (option === 'product-specs') {
       this.dialog.closeAll();
-      this.router.navigate(['/robot-information-form']);
+      this.router.navigate(['/product-info']);
     } else {
       // For now, just close the dialog for other options
       this.dialog.closeAll();

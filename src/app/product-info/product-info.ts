@@ -1,0 +1,22 @@
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+
+@Component({
+  selector: 'app-product-info',
+  imports: [
+    CommonModule, 
+    MatCardModule, 
+    MatExpansionModule, 
+    MatIconModule,
+    MatButtonModule
+  ],
+  templateUrl: './product-info.html',
+  styleUrl: './product-info.css'
+})
+export class ProductInfoComponent {
+  
+}
